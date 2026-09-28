@@ -205,6 +205,22 @@ both, keyboard interaction, narrow screens and reduced motion. Prototype
 new patterns in the app, then place their reusable behavior and appearance
 here. Ronin remains on hold; its legacy styles have not been migrated.
 
+### Board artifacts
+
+`css/shaping.css` also draws shaped work on a board. Every artifact keeps
+its items' review status, actions and *Show the details*; these classes
+only lay them out.
+
+| Component | Contract |
+| --- | --- |
+| `.sumi-board-page.compact` | A small board page for items shown many to a box; its heading carries the content. |
+| `.sumi-status.assumption` | A double-edged chip with the word "Assumption", for guesses such as personas. |
+| `.sumi-four-box` | Four `.sumi-box` sections in two rows (one column on phones), each with an `h4`, an optional `.sumi-box-hint` or `.sumi-box-empty`, and its items. `.sumi-box-focus` adds a blade edge to the box that needs attention first; its heading must say why. `.sumi-four-box-axis.y` (before) and `.x` (after) show the axis words. |
+| `.sumi-tree` | Nested lists drawn as a tree with hairline elbows; `.sumi-tree-empty` for a placeholder node. |
+| `.sumi-table-wrap`, `.sumi-table` | A hairline table that scrolls sideways on narrow screens, with a `caption`. A `.sumi-table-actions` row under a row holds its actions. |
+| `.sumi-card-list` | Rows of `.sumi-card-list-text` (lines and a `small` note) and one action. Mark the current row with `aria-current`. |
+| `.sumi-portrait-summary`, `.sumi-portrait-context`, `.sumi-portrait-lists` | A persona: a summary in display type, where they use it, and what they want and what frustrates them in two lists. |
+
 ## Card controls
 
 `css/cards.css` holds the controls of a decision card. Each one is a

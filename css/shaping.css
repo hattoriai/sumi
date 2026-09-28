@@ -275,3 +275,258 @@
 @media (prefers-reduced-motion: reduce) {
   .sumi-skeleton { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Board artifacts: how shaped work is drawn on a board.
+   ═══════════════════════════════════════════════════════════ */
+
+/* A board page drawn small, many to a box: the heading carries the
+   content, and the actions stay one tap away. */
+.sumi-board-page.compact {
+  padding: .75rem 0 .6rem;
+}
+
+.sumi-board-page.compact .page-heading {
+  margin-bottom: .35rem;
+  align-items: flex-start;
+}
+
+.sumi-board-page.compact .page-heading h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.sumi-board-page.compact .page-actions {
+  gap: .75rem;
+}
+
+/* Marks work that is a guess until someone checks it (a persona). */
+.sumi-status.assumption {
+  display: inline-block;
+  border-style: double;
+  border-width: 3px;
+  color: var(--sumi-text-secondary);
+}
+
+/* Four boxes in two rows (forces, an assumption map). Each box has a
+   heading, an optional hint and its items; they stack on phones. Put
+   .sumi-four-box-axis .y before and .x after for axis words. */
+.sumi-four-box {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+
+.sumi-box {
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+  padding: .85rem .9rem .5rem;
+  min-width: 0;
+}
+
+.sumi-box h4 {
+  font-size: .75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sumi-box-hint, .sumi-box-empty {
+  font-size: .75rem;
+  color: var(--sumi-text-secondary);
+  margin: .25rem 0 .35rem;
+}
+
+/* The box that needs attention first: a blade edge, and its words say
+   why. */
+.sumi-box-focus {
+  border-left: 2px solid var(--color-sumi-blade);
+}
+
+.sumi-four-box-axis {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: .7rem;
+  color: var(--sumi-text-muted);
+  margin: .35rem 0;
+}
+
+.sumi-four-box-axis.y span:first-child::before {
+  content: '↑ ';
+}
+
+.sumi-four-box-axis.y span:last-child::before {
+  content: '↓ ';
+}
+
+.sumi-four-box-axis.x span:last-child::after {
+  content: ' →';
+}
+
+@media (max-width: 540px) {
+  .sumi-four-box {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* A tree drawn with hairlines: nested lists, each child joined to its
+   parent by an elbow. Used for an opportunity solution tree. */
+.sumi-tree, .sumi-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sumi-tree ul {
+  margin-left: .6rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--sumi-line-strong);
+}
+
+.sumi-tree ul > li {
+  position: relative;
+}
+
+.sumi-tree ul > li::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  top: 1.35rem;
+  width: .75rem;
+  border-top: 1px solid var(--sumi-line-strong);
+}
+
+.sumi-tree-empty {
+  display: block;
+  padding: .75rem 0 .35rem;
+  font-size: .8rem;
+  color: var(--sumi-text-secondary);
+}
+
+/* A hairline table that scrolls sideways on narrow screens. A row of
+   .sumi-table-actions under a row holds that row's actions. */
+.sumi-table-wrap {
+  overflow-x: auto;
+  margin: .5rem 0 1rem;
+}
+
+.sumi-table {
+  width: 100%;
+  min-width: 32rem;
+  border-collapse: collapse;
+  font-size: .85rem;
+}
+
+.sumi-table caption {
+  text-align: left;
+  margin-bottom: .5rem;
+}
+
+.sumi-table th, .sumi-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: .6rem .75rem .6rem 0;
+  border-top: 1px solid var(--sumi-line);
+}
+
+.sumi-table thead th {
+  font-size: .7rem;
+  font-weight: 500;
+  color: var(--sumi-text-secondary);
+  border-top: 0;
+}
+
+.sumi-table tbody th .sumi-status {
+  margin-left: .4rem;
+}
+
+.sumi-table .sumi-table-actions td {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* A list of rows, each a text block and one action: questions to open,
+   answers to review. Mark the current row with aria-current. */
+.sumi-card-list {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0;
+}
+
+.sumi-card-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .5rem 0;
+  border-top: 1px solid var(--sumi-line);
+}
+
+.sumi-card-list li[aria-current] {
+  border-left: 2px solid var(--color-sumi-blade);
+  padding-left: .6rem;
+}
+
+.sumi-card-list-text {
+  display: grid;
+  gap: .1rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sumi-card-list-text small {
+  color: var(--sumi-text-secondary);
+  font-size: .75rem;
+}
+
+/* A portrait (a persona): who they are, where they work, what they
+   want and what gets in their way. Pair it with .sumi-status.assumption. */
+.sumi-portrait-summary {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  margin: .5rem 0 .35rem;
+}
+
+.sumi-portrait-context {
+  font-size: .85rem;
+  color: var(--sumi-text-secondary);
+  margin-bottom: .5rem;
+}
+
+.sumi-portrait-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: .5rem 1.25rem;
+  font-size: .85rem;
+}
+
+.sumi-portrait-lists ul {
+  padding-left: 1.1rem;
+  margin: .25rem 0 .5rem;
+}
+
+.sumi-table-actions .page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.125rem;
+  font-size: .7rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-table-actions .page-actions button,
+.sumi-table-actions .page-actions summary {
+  font-size: .7rem;
+}
+
+.sumi-table-actions .page-actions .approve {
+  color: var(--sumi-success-text);
+}
+
+.sumi-table-actions .page-actions details[open] {
+  flex-basis: 100%;
+}
