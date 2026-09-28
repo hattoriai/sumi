@@ -1,0 +1,145 @@
+/* ═══════════════════════════════════════════════════════════
+   SUMI — Sumi Design System
+   DaisyUI Theme Configuration
+   ═══════════════════════════════════════════════════════════ */
+
+/* DARK THEME — The canonical Sumi look (ink background, paper text) */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "dark";
+  default: true;
+  prefersdark: true;
+  color-scheme: "dark";
+  /* ink: #0a0a0b → base canvas */
+  --color-base-100: oklch(12% 0.003 270);
+  /* steel: slightly lifted */
+  --color-base-200: oklch(16% 0.004 270);
+  /* deeper steel for recessed areas */
+  --color-base-300: oklch(20% 0.005 270);
+  /* paper: #f5f0e8 warm cream */
+  --color-base-content: oklch(95% 0.012 85);
+  /* blade: #e84a1c — the signature orange */
+  --color-primary: oklch(58% 0.2 32);
+  --color-primary-content: oklch(98% 0.005 85);
+  /* ember: #ff6b3d — bright warm accent */
+  --color-secondary: oklch(66% 0.2 42);
+  --color-secondary-content: oklch(98% 0.005 85);
+  /* paper as accent for contrast elements */
+  --color-accent: oklch(95% 0.012 85);
+  --color-accent-content: oklch(12% 0.003 270);
+  /* ash: #6b6b73 — muted neutral */
+  --color-neutral: oklch(35% 0.008 270);
+  --color-neutral-content: oklch(85% 0.008 270);
+  /* status colors — warm-shifted to match the palette */
+  --color-info: oklch(62% 0.15 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(62% 0.14 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(72% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(58% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  /* sharp, minimal radii — matching the landing's squared-off cards */
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* LIGHT THEME — Inverted Sumi: paper background, ink text */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "light";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  /* paper: #f5f0e8 warm cream */
+  --color-base-100: oklch(96% 0.01 85);
+  --color-base-200: oklch(93% 0.012 85);
+  --color-base-300: oklch(89% 0.014 80);
+  /* ink: #0a0a0b near-black */
+  --color-base-content: oklch(15% 0.003 270);
+  /* blade: #e84a1c — same signature orange */
+  --color-primary: oklch(58% 0.2 32);
+  --color-primary-content: oklch(98% 0.005 85);
+  /* ember: bright warm */
+  --color-secondary: oklch(66% 0.2 42);
+  --color-secondary-content: oklch(98% 0.005 85);
+  /* ink as accent */
+  --color-accent: oklch(15% 0.003 270);
+  --color-accent-content: oklch(96% 0.01 85);
+  /* steel for neutral */
+  --color-neutral: oklch(50% 0.008 270);
+  --color-neutral-content: oklch(98% 0.005 85);
+  /* status colors — same hues, tweaked for light bg */
+  --color-info: oklch(55% 0.18 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(55% 0.16 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(68% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(55% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  /* same minimal radii */
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* SNOW THEME — Ink on near-white, for people who prefer a neutral page to
+   warm paper. Cool greys follow the ink's hue; blade stays the accent.
+   A light theme: it is also in the light-scheme list in tokens.css. */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "snow";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  /* white page, then faintly cool raised and recessed surfaces */
+  --color-base-100: oklch(99.5% 0.001 270);
+  --color-base-200: oklch(97% 0.003 270);
+  --color-base-300: oklch(92.5% 0.005 270);
+  /* ink, slightly softened for long reading on white */
+  --color-base-content: oklch(20% 0.006 270);
+  --color-primary: oklch(58% 0.2 32);
+  --color-primary-content: oklch(98% 0.005 85);
+  --color-secondary: oklch(66% 0.2 42);
+  --color-secondary-content: oklch(98% 0.005 85);
+  --color-accent: oklch(20% 0.006 270);
+  --color-accent-content: oklch(99.5% 0.001 270);
+  --color-neutral: oklch(50% 0.008 270);
+  --color-neutral-content: oklch(98% 0.003 270);
+  --color-info: oklch(55% 0.18 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(55% 0.16 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(68% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(55% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode  */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session], [data-phx-teleported-src] { display: contents }

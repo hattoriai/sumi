@@ -1,0 +1,12 @@
+/* Field errors belong to the form, with the same colors as Toryo's inputs. */
+.sumi-field-error {
+  margin: .5rem 0 1rem;
+  color: var(--color-error);
+  font-family: var(--font-body);
+  font-size: .875rem;
+  line-height: 1.4;
+}
+
+[data-sumi-form] [aria-invalid="true"] {
+  border-color: var(--color-error);
+}

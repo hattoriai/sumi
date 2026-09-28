@@ -1,0 +1,71 @@
+/* Editorial settings layout, using the same themed controls as Toryo. */
+.sumi-settings {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 7vw, 7rem);
+  padding: clamp(3rem, 7vw, 7rem) var(--sumi-page-gutter);
+  align-items: start;
+}
+
+.sumi-settings-intro h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 5vw, 5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin: 1.5rem 0;
+}
+
+.sumi-settings-intro > p {
+  max-width: 32rem;
+  margin-bottom: 1.5rem;
+}
+
+.sumi-settings-form {
+  border-top: 1px solid var(--sumi-line);
+  padding-top: 2rem;
+}
+
+.sumi-provider-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+.sumi-provider-choices [aria-pressed="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-primary-content);
+}
+
+.sumi-settings-field {
+  margin: 2rem 0;
+}
+
+.sumi-settings-field > label {
+  display: block;
+  margin-bottom: .75rem;
+}
+
+.sumi-settings-form .fine-print {
+  margin: .75rem 0 1.25rem;
+}
+
+.sumi-settings-form .sumi-select-options {
+  width: 100%;
+}
+
+.sumi-settings-form [role="option"] {
+  white-space: normal;
+}
+
+.sumi-settings-form > .btn {
+  margin-top: 1rem;
+}
+
+@media (max-width: 740px) {
+  .sumi-settings {
+    grid-template-columns: 1fr;
+  }
+}

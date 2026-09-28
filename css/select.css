@@ -1,0 +1,50 @@
+/* Uses Toryo's themed .select trigger and the workshop menu surface. */
+.sumi-select {
+  position: relative;
+  min-width: 10rem;
+}
+
+.sumi-select > .select {
+  text-align: left;
+  font-weight: 400;
+}
+
+.sumi-select-options {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + .375rem);
+  left: 0;
+  min-width: 100%;
+  max-height: 16rem;
+  overflow-y: auto;
+  padding: .375rem;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  box-shadow: 0 8px 24px #0002;
+}
+
+.sumi-select-options > [role="option"] {
+  display: block;
+  width: 100%;
+  padding: .5rem .75rem;
+  border-radius: var(--radius-field);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sumi-select-options > [role="option"]:hover,
+.sumi-select-options > [role="option"]:focus-visible {
+  background: var(--color-base-200);
+  outline-offset: -2px;
+}
+
+.sumi-select-options > [aria-selected="true"] {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.sumi-select-options > [aria-selected="true"]::after {
+  content: " ✓";
+}

@@ -1,0 +1,87 @@
+/* ═══════════════════════════════════════════════════════════
+   SUMI DESIGN TOKENS — CSS Custom Properties
+   ═══════════════════════════════════════════════════════════ */
+
+@theme {
+  --font-display: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+
+  --color-sumi-ink: #0a0a0b;
+  --color-sumi-paper: #f5f0e8;
+  --color-sumi-steel: #2a2a2e;
+  /* Theme-aware neutral tuned for WCAG AA on both dark and light backgrounds */
+  --color-sumi-ash: var(--color-base-content);
+  --color-sumi-blade: #e84a1c;
+  --color-sumi-ember: #ff6b3d;
+  --color-sumi-ghost: rgba(232, 74, 28, 0.08);
+}
+
+/* ── Semantic text colors — theme-aware contrast tiers ─────
+   Each tier is calibrated to pass WCAG AA in its respective theme.
+   Dark theme needs lower opacity (light text on dark bg has inherent contrast).
+   Light theme needs higher opacity (dark text on light bg needs more ink).
+
+   Usage:
+     color: var(--sumi-text-muted);    ← meta labels, timestamps, captions
+     color: var(--sumi-text-secondary); ← descriptions, subtitles
+     color: var(--sumi-text-tertiary);  ← decorative, placeholder (below readable threshold)
+   ──────────────────────────────────────────────────────────── */
+
+/* Dark-theme defaults (set on :root so they work before theme loads) */
+:root {
+  --sumi-text-muted: oklch(from var(--color-base-content) l c h / 0.50);
+  --sumi-text-secondary: oklch(from var(--color-base-content) l c h / 0.60);
+  --sumi-text-tertiary: oklch(from var(--color-base-content) l c h / 0.30);
+  /* Small captions that must stay readable on raised surfaces. */
+  --sumi-text-caption: oklch(from var(--color-base-content) l c h / 0.78);
+}
+
+/* ── Semantic tokens — lines, state text, motion and layout ─
+   Lines are hairlines of the text colour. Use them for borders and
+   dividers in place of fills.
+
+   The status text colours are calibrated for AA on the base surfaces.
+   Accent text is for small blade-coloured text; use the blade itself
+   for rules, marks and focus.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  --sumi-line: oklch(from var(--color-base-content) l c h / .12);
+  --sumi-line-strong: oklch(from var(--color-base-content) l c h / .24);
+  --sumi-accent-text: var(--color-sumi-ember);
+  --sumi-success-text: oklch(76% .1 155);
+  --sumi-success-surface: color-mix(in srgb, var(--color-success) 12%, var(--color-base-100));
+  --sumi-error-text: oklch(78% .12 30);
+  --sumi-error-surface: color-mix(in srgb, var(--color-error) 12%, var(--color-base-100));
+  --sumi-motion: 200ms;
+  --sumi-control-height: 2.75rem;
+
+  /* Two content widths: one for reading, one for work surfaces. */
+  --sumi-content-width: 56rem;
+  --sumi-wide-width: 80rem;
+}
+
+/* ── Light scheme ───────────────────────────────────────────
+   Every light theme needs more ink for AA: higher text opacity and
+   darker state text. This list is the one place that names the light
+   themes; add a new light theme here as well as in theme.css.
+   ──────────────────────────────────────────────────────────── */
+:root:is([data-theme="light"], [data-theme="snow"]) {
+  --sumi-text-muted: oklch(from var(--color-base-content) l c h / 0.65);
+  --sumi-text-secondary: oklch(from var(--color-base-content) l c h / 0.70);
+  --sumi-text-tertiary: oklch(from var(--color-base-content) l c h / 0.45);
+  --sumi-text-caption: oklch(from var(--color-base-content) l c h / 0.82);
+  --sumi-accent-text: oklch(48% .17 32);
+  --sumi-success-text: oklch(40% .1 155);
+  --sumi-error-text: oklch(44% .16 30);
+}
+
+/* Shared page gutters keep headers, notices and settings aligned. */
+:root {
+  --sumi-page-gutter: 4.5%;
+}
+
+@media (max-width: 740px) {
+  :root {
+    --sumi-page-gutter: 6%;
+  }
+}

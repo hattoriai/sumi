@@ -1,0 +1,55 @@
+/* Branded error pages (404, 500): the status code as a faint display
+   numeral, an eyebrow, a heading and a way back. The app's mark sits in
+   outline beside it; on narrow screens the mark is left out. */
+.sumi-error {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: clamp(3rem, 8vw, 7rem) 0;
+}
+
+.sumi-error-code {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 9rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: oklch(from var(--color-base-content) l c h / .1);
+  margin-bottom: 1rem;
+}
+
+.sumi-error h1 {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  margin: 1.25rem 0;
+}
+
+.sumi-error-description {
+  max-width: 28rem;
+  color: var(--sumi-text-secondary);
+  margin-bottom: 2rem;
+}
+
+.sumi-error-mark {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  border-left: 1px solid var(--sumi-line);
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 18vw, 15rem);
+  font-weight: 300;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--sumi-line-strong);
+}
+
+@media (max-width: 740px) {
+  .sumi-error {
+    grid-template-columns: 1fr;
+  }
+
+  .sumi-error-mark {
+    display: none;
+  }
+}

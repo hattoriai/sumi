@@ -1,0 +1,49 @@
+/* A three-way appearance control: system, light, dark. Each option is a
+   native button with aria-pressed; the pressed one is raised and at full
+   contrast, so the state does not depend on colour. */
+.sumi-theme-toggle {
+  display: inline-flex;
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-field);
+}
+
+.sumi-theme-toggle button {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sumi-text-muted);
+  cursor: pointer;
+}
+
+.sumi-theme-toggle button + button {
+  border-left: 1px solid var(--sumi-line);
+}
+
+.sumi-theme-toggle button:hover {
+  color: var(--color-base-content);
+}
+
+.sumi-theme-toggle button[aria-pressed="true"] {
+  background: var(--color-base-300);
+  color: var(--color-base-content);
+}
+
+.sumi-theme-toggle button:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+.sumi-theme-toggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sumi-theme-toggle button {
+    transition: color var(--sumi-motion) ease, background-color var(--sumi-motion) ease;
+  }
+}

@@ -1,0 +1,41 @@
+/* Navigation between the pages of one area, such as a workshop's team and
+   AI settings. Links sit on a hairline; the current one is at full
+   contrast with a blade underline on the line, so the state has a shape
+   as well as a colour. Mark the current link with aria-current="page". */
+.sumi-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.75rem;
+  border-bottom: 1px solid var(--sumi-line);
+}
+
+.sumi-section-nav a {
+  margin-bottom: -1px;
+  padding: .75rem 0;
+  border-bottom: 2px solid transparent;
+  color: var(--sumi-text-secondary);
+  font-size: .8rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.sumi-section-nav a:hover {
+  color: var(--color-base-content);
+}
+
+.sumi-section-nav a[aria-current] {
+  color: var(--color-base-content);
+  border-bottom-color: var(--color-sumi-blade);
+}
+
+.sumi-section-nav a:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sumi-section-nav a {
+    transition: color var(--sumi-motion) ease, border-color var(--sumi-motion) ease;
+  }
+}

@@ -1,0 +1,60 @@
+/* ═══════════════════════════════════════════════════════════
+   FOCUS — Visible focus outlines for keyboard navigation
+   ═══════════════════════════════════════════════════════════ */
+
+.sumi-btn-primary:focus-visible,
+.sumi-btn-secondary:focus-visible,
+.sumi-btn-ghost:focus-visible,
+.sumi-btn-danger:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+.sumi-sidebar-link:focus-visible,
+.sumi-sidebar-org:focus-visible,
+.sumi-topbar-icon:focus-visible,
+.sumi-topbar-menu:focus-visible,
+.sumi-topbar-search:focus-visible,
+.sumi-topbar-avatar:focus-visible,
+.sumi-nav-link:focus-visible,
+.sumi-quick-action:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DISABLED — Button disabled states
+   ═══════════════════════════════════════════════════════════ */
+
+.sumi-btn-primary:disabled,
+.sumi-btn-secondary:disabled,
+.sumi-btn-ghost:disabled,
+.sumi-btn-danger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEXT OVERFLOW — Utilities for long content
+   ═══════════════════════════════════════════════════════════ */
+
+.sumi-break-word {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDUCED MOTION — Respect user motion preferences
+   ═══════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

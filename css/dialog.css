@@ -1,0 +1,26 @@
+/* Ronin's confirmation pattern, expressed with shared Sumi theme tokens. */
+:root {
+  --sumi-dialog-width: 30rem;
+  --sumi-dialog-backdrop: oklch(12% .003 270 / .65);
+}
+
+.sumi-dialog {
+  margin: auto;
+  padding: 0;
+  width: min(var(--sumi-dialog-width), calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  border: 1px solid var(--color-base-300);
+  border-top: 2px solid var(--color-error);
+  border-radius: var(--radius-box);
+  color: var(--color-base-content);
+  background: var(--color-base-100);
+}
+
+.sumi-dialog::backdrop { background: var(--sumi-dialog-backdrop); }
+.sumi-dialog-body { padding: 1.75rem; }
+.sumi-dialog h2 { font-family: var(--font-display); font-size: 2rem; line-height: 1.15; margin-bottom: 1rem; }
+.sumi-dialog p { margin-bottom: 1.25rem; }
+.sumi-dialog label { display: block; margin-bottom: .75rem; }
+.sumi-dialog code { overflow-wrap: anywhere; }
+.sumi-dialog-actions { display: flex; gap: .75rem; justify-content: flex-end; margin-top: 1.5rem; }
