@@ -1,0 +1,449 @@
+/* ═══════════════════════════════════════════════════════════
+   LOOK PREVIEWS — a product's own look, drawn inside the app
+   ═══════════════════════════════════════════════════════════
+   A `.sumi-preview` element carries a product's tokens as `--preview-*`
+   custom properties (set inline by the app). Everything inside draws
+   with them, never with the app theme, so a product's look can be shown
+   in any app theme. The frames around previews use Sumi's own tokens.
+   ──────────────────────────────────────────────────────────── */
+
+.sumi-preview {
+  background: var(--preview-color-bg);
+  color: var(--preview-color-text);
+  font-family: var(--preview-font-body, system-ui, sans-serif);
+  font-weight: var(--preview-font-weight-body, 400);
+}
+
+/* ── Style tile ─────────────────────────────────────────── */
+
+.sumi-style-tile {
+  display: grid;
+  gap: var(--preview-space-3, .75rem);
+  padding: var(--preview-space-5, 1.25rem);
+  border: 1px solid var(--sumi-line-strong);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sumi-style-tile.compact {
+  gap: var(--preview-space-2, .5rem);
+  padding: var(--preview-space-4, 1rem);
+}
+
+.sumi-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumi-swatch {
+  width: 1.6rem;
+  height: 1.6rem;
+  background: var(--swatch);
+  border: 1px solid var(--preview-color-border);
+  border-radius: var(--preview-radius-sm, 2px);
+}
+
+.sumi-style-tile.compact .sumi-swatch {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.sumi-preview-display {
+  margin: 0;
+  font-family: var(--preview-font-display, Georgia, serif);
+  font-weight: var(--preview-font-weight-display, 700);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  overflow-wrap: anywhere;
+}
+
+.sumi-style-tile.compact .sumi-preview-display {
+  font-size: 1.1rem;
+}
+
+.sumi-preview-body {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--preview-color-text-muted);
+}
+
+.sumi-preview-card {
+  display: grid;
+  min-width: 0;
+  gap: var(--preview-space-3, .75rem);
+  padding: var(--preview-card-padding, 1rem);
+  background: var(--preview-card-bg);
+  color: var(--preview-card-text);
+  border: 1px solid var(--preview-card-border);
+  border-radius: var(--preview-card-radius, 0);
+}
+
+.sumi-style-tile.compact .sumi-preview-card {
+  gap: var(--preview-space-2, .5rem);
+  padding: var(--preview-space-3, .75rem);
+}
+
+.sumi-preview-badge {
+  justify-self: start;
+  padding: .1rem .6rem;
+  background: var(--preview-badge-bg);
+  color: var(--preview-badge-text);
+  border-radius: var(--preview-badge-radius, 999px);
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.sumi-preview-label {
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.sumi-preview-input {
+  display: block;
+  min-height: var(--preview-input-height, 2.5rem);
+  line-height: var(--preview-input-height, 2.5rem);
+  padding: 0 var(--preview-input-padding-x, .75rem);
+  background: var(--preview-input-bg);
+  color: var(--preview-input-placeholder);
+  border: 1px solid var(--preview-input-border);
+  border-radius: var(--preview-input-radius, 0);
+  font-size: .875rem;
+}
+
+.sumi-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--preview-space-2, .5rem);
+}
+
+.sumi-preview-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--preview-button-primary-height, 2.5rem);
+  padding: 0 var(--preview-button-primary-padding-x, 1rem);
+  background: var(--preview-button-primary-bg);
+  color: var(--preview-button-primary-text);
+  border: 1px solid var(--preview-button-primary-bg);
+  border-radius: var(--preview-button-primary-radius, 0);
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.sumi-preview-button.secondary {
+  background: var(--preview-button-secondary-bg);
+  color: var(--preview-button-secondary-text);
+  border-color: var(--preview-button-secondary-border);
+  border-radius: var(--preview-button-secondary-radius, 0);
+}
+
+.sumi-style-tile.compact .sumi-preview-button,
+.sumi-style-tile.compact .sumi-preview-input {
+  min-height: 2rem;
+  line-height: 2rem;
+  font-size: .75rem;
+}
+
+/* ── Picking tiles ──────────────────────────────────────── */
+
+.sumi-style-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: .75rem;
+  margin: 1.5rem 0 .75rem;
+}
+
+.sumi-style-pick {
+  display: grid;
+  align-content: start;
+  gap: .6rem;
+  padding: .5rem;
+  text-align: left;
+  border: 1px solid var(--sumi-line);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  font-family: var(--font-body);
+  min-width: 0;
+}
+
+.sumi-style-pick:hover {
+  border-color: var(--sumi-accent-text);
+}
+
+.sumi-style-pick[aria-pressed="true"] {
+  border-color: var(--sumi-accent-text);
+  box-shadow: inset 0 -3px 0 var(--color-sumi-blade);
+}
+
+.sumi-style-pick:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 3px;
+}
+
+.sumi-style-pick-text {
+  display: grid;
+  gap: .2rem;
+  padding: 0 .25rem .35rem;
+}
+
+.sumi-style-pick-text .choice-label {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .9rem;
+}
+
+.sumi-style-pick-text .choice-indicator:empty {
+  display: none;
+}
+
+/* ── Nudging a look ─────────────────────────────────────── */
+
+.sumi-style-studio {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--sumi-line);
+}
+
+.sumi-style-studio h3 {
+  margin: 0;
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.sumi-nudges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+}
+
+.sumi-hue {
+  display: grid;
+  gap: .35rem;
+}
+
+.sumi-hue label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .8rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-hue input[type="range"] {
+  width: 100%;
+  min-height: var(--sumi-control-height);
+  accent-color: var(--color-sumi-blade);
+  background: transparent;
+}
+
+/* The track shows the hues, so the slider reads as a colour wheel. The
+   number beside the label says where it is. */
+.sumi-hue input[type="range"]::-webkit-slider-runnable-track {
+  height: .5rem;
+  background: linear-gradient(to right in oklch longer hue, oklch(65% .15 0), oklch(65% .15 360));
+  border: 1px solid var(--sumi-line-strong);
+}
+
+.sumi-hue input[type="range"]::-moz-range-track {
+  height: .5rem;
+  background: linear-gradient(to right in oklch longer hue, oklch(65% .15 0), oklch(65% .15 360));
+  border: 1px solid var(--sumi-line-strong);
+}
+
+.sumi-hue input[type="range"]::-webkit-slider-thumb {
+  margin-top: -.45rem;
+}
+
+.sumi-hex {
+  display: grid;
+  gap: .35rem;
+  max-width: 16rem;
+}
+
+.sumi-hex label {
+  font-size: .8rem;
+  color: var(--sumi-text-secondary);
+}
+
+/* ── Contrast numbers ───────────────────────────────────── */
+
+.sumi-contrast {
+  display: grid;
+  gap: .5rem;
+}
+
+.sumi-contrast-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  margin: 0;
+  font-size: .8125rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-contrast-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .8rem;
+}
+
+.sumi-contrast-table th,
+.sumi-contrast-table td {
+  padding: .35rem .5rem .35rem 0;
+  border-bottom: 1px solid var(--sumi-line);
+  text-align: left;
+  font-weight: 400;
+  vertical-align: top;
+}
+
+.sumi-contrast-table thead th {
+  color: var(--sumi-text-muted);
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.sumi-contrast-table td {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.sumi-contrast-table small {
+  display: block;
+  color: var(--sumi-text-muted);
+  font-size: .7rem;
+}
+
+/* ── Notes on a look ────────────────────────────────────── */
+
+.sumi-look-notes {
+  display: grid;
+  gap: .4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumi-look-notes li {
+  padding: .5rem .75rem;
+  border-left: 2px solid var(--sumi-accent-text);
+  background: color-mix(in srgb, var(--color-sumi-blade) 6%, var(--color-base-100));
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+.sumi-look-notes li::before {
+  content: 'Note: ';
+  font-weight: 500;
+}
+
+/* ── Type ───────────────────────────────────────────────── */
+
+.sumi-type-pairs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: .55rem;
+  margin: 1.5rem 0 .75rem;
+}
+
+.sumi-choice.sumi-type-pick {
+  display: grid;
+  align-content: start;
+  gap: .75rem;
+}
+
+.sumi-type-specimen {
+  display: grid;
+  gap: .5rem;
+  min-width: 0;
+}
+
+.sumi-type-display {
+  margin: 0;
+  font-family: var(--specimen-display);
+  font-weight: var(--specimen-display-weight);
+  font-size: 1.6rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.sumi-type-body {
+  margin: 0;
+  font-family: var(--specimen-body);
+  font-weight: var(--specimen-body-weight);
+  font-size: .95rem;
+  line-height: 1.55;
+}
+
+.sumi-type-specimen.compact .sumi-type-display {
+  font-size: 1.25rem;
+}
+
+.sumi-type-specimen.compact .sumi-type-body {
+  font-size: .8rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-type-scale {
+  display: grid;
+  gap: .6rem;
+  margin: .5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumi-type-scale li {
+  display: grid;
+  gap: .1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--sumi-line);
+  min-width: 0;
+}
+
+.sumi-type-scale small {
+  color: var(--sumi-text-muted);
+  font-size: .7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.sumi-type-preview {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid var(--sumi-line);
+}
+
+/* ── A value on a line between two words ────────────────── */
+
+.sumi-scale {
+  position: relative;
+  display: block;
+  height: .75rem;
+  border-bottom: 1px solid var(--sumi-line-strong);
+}
+
+.sumi-scale::after {
+  content: '';
+  position: absolute;
+  left: clamp(0%, var(--at, 50%), 100%);
+  bottom: -.35rem;
+  width: .7rem;
+  height: .7rem;
+  margin-left: -.35rem;
+  background: var(--color-sumi-blade);
+  border-radius: 50%;
+}
+
+@media (max-width: 540px) {
+  .sumi-style-tiles,
+  .sumi-type-pairs {
+    grid-template-columns: 1fr;
+  }
+}

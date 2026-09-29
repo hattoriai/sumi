@@ -1,0 +1,124 @@
+/* Sumi steps: a short numbered guide, each step a heading with its body.
+   The numbers are drawn in display type beside a hairline, so the order
+   reads at a glance; the list stays an <ol> for assistive technology.
+
+   Sumi command: a shell command in a block, with its own copy button.
+   Long commands scroll inside the block, never the page. */
+
+.sumi-steps {
+  list-style: none;
+  counter-reset: sumi-step;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.sumi-steps > li {
+  counter-increment: sumi-step;
+  position: relative;
+  padding-left: 2.75rem;
+  min-width: 0;
+}
+
+.sumi-steps > li::before {
+  content: counter(sumi-step, decimal-leading-zero) / '';
+  position: absolute;
+  left: 0;
+  top: -.1rem;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--sumi-accent-text);
+}
+
+.sumi-steps > li::after {
+  content: '';
+  position: absolute;
+  left: .7rem;
+  top: 1.6rem;
+  bottom: -1.25rem;
+  border-left: 1px solid var(--sumi-line);
+}
+
+.sumi-steps > li:last-child::after {
+  display: none;
+}
+
+.sumi-steps h4 {
+  font-size: .9375rem;
+  font-weight: 500;
+  margin: 0 0 .45rem;
+}
+
+.sumi-steps p {
+  color: var(--sumi-text-secondary);
+  font-size: .8125rem;
+  margin: 0 0 .6rem;
+}
+
+.sumi-command {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  margin: 0 0 .5rem;
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-field, 2px);
+  background: var(--color-base-200);
+}
+
+.sumi-command pre {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: .7rem .85rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .8125rem;
+  line-height: 1.5;
+  color: var(--color-base-content);
+  white-space: pre;
+}
+
+.sumi-command-copy {
+  flex: none;
+  min-width: 4rem;
+  padding: 0 .85rem;
+  border: 0;
+  border-left: 1px solid var(--sumi-line-strong);
+  background: transparent;
+  color: var(--color-base-content);
+  font: inherit;
+  font-size: .75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--sumi-motion);
+}
+
+.sumi-command-copy:hover {
+  background: var(--sumi-line);
+}
+
+.sumi-command-copy:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+@media (pointer: coarse) {
+  .sumi-command-copy {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sumi-command-copy {
+    transition: none;
+  }
+}
+
+.sumi-command pre:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}

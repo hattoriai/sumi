@@ -31,7 +31,6 @@
   padding: .5rem .75rem;
   border-radius: var(--radius-field);
   text-align: left;
-  white-space: nowrap;
 }
 
 .sumi-select-options > [role="option"]:hover,
@@ -45,6 +44,28 @@
   font-weight: 600;
 }
 
-.sumi-select-options > [aria-selected="true"]::after {
+.sumi-select-options > [aria-selected="true"] [data-option-label]::after {
   content: " ✓";
+  content: " ✓" / "";
+}
+
+/* An option's plain description, under its label. */
+.sumi-select-option-description {
+  display: block;
+  margin-top: .15rem;
+  font-size: .75rem;
+  font-weight: 400;
+  color: var(--sumi-text-secondary);
+  white-space: normal;
+}
+
+/* The chosen option's description, under the control. */
+.sumi-select-description {
+  margin: .35rem 0 0;
+  font-size: .8rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-select-description[hidden] {
+  display: none;
 }

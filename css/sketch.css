@@ -1,0 +1,634 @@
+/* ═══════════════════════════════════════════════════════════
+   SKETCHES — low-fidelity screens, their editor and their states
+   ═══════════════════════════════════════════════════════════
+   A sketch is a drawing the app makes itself (an SVG shown as an image),
+   so it keeps its own paper in any app theme. These classes frame it,
+   lay out the choices between sketches, the wireframe editor (every move
+   a button or a native field), the breadboard of screens, the UI-stack
+   states, the storyboard and text samples for products without screens.
+   ──────────────────────────────────────────────────────────── */
+
+.sumi-sketch {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-box);
+}
+
+.sumi-sketch-missing {
+  display: grid;
+  place-items: center;
+  min-height: 6rem;
+  margin: 0;
+  padding: 1rem;
+  border: 1px dashed var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+  color: var(--sumi-text-secondary);
+  font-size: .8rem;
+}
+
+.sumi-sketch-frame {
+  margin: .75rem 0;
+}
+
+/* ── Picking a sketch ───────────────────────────────────── */
+
+.sumi-sketch-picks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.sumi-sketch-pick {
+  display: grid;
+  align-content: start;
+  gap: .5rem;
+  min-width: 0;
+  padding: .45rem;
+  border: 1px solid var(--sumi-line);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  font-family: var(--font-body);
+  text-align: left;
+}
+
+.sumi-sketch-pick:hover {
+  border-color: var(--sumi-accent-text);
+}
+
+.sumi-sketch-pick[aria-pressed="true"] {
+  border-color: var(--sumi-accent-text);
+  box-shadow: inset 0 -3px 0 var(--color-sumi-blade);
+}
+
+.sumi-sketch-pick:focus-visible, .sumi-sketch-thumb:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 3px;
+}
+
+.sumi-sketch-pick-text {
+  display: grid;
+  gap: .2rem;
+  padding: 0 .25rem .3rem;
+}
+
+.sumi-sketch-pick-text .choice-label {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .9rem;
+}
+
+.sumi-sketch-pick-text .choice-indicator:empty {
+  display: none;
+}
+
+/* ── Seeing a sketch larger ─────────────────────────────── */
+
+/* A sketch with an Expand button over its top-right corner. The button
+   sits next to the thumbnail's own button (never inside it), shows on
+   hover and on focus, and always on touch screens. It opens a
+   `.sumi-dialog-large` with a `.sumi-sketch-viewer`. */
+.sumi-sketch-expandable {
+  position: relative;
+  display: grid;
+  min-width: 0;
+}
+
+.sumi-sketch-expandable > :first-child {
+  height: 100%;
+}
+
+.sumi-sketch-expand {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  background: var(--color-base-100);
+  box-shadow: 0 1px 3px oklch(0% 0 0 / .18);
+  opacity: 0;
+  transition: opacity .12s ease;
+}
+
+.sumi-sketch-expandable:hover .sumi-sketch-expand,
+.sumi-sketch-expandable:focus-within .sumi-sketch-expand,
+.sumi-sketch-expand:focus-visible {
+  opacity: 1;
+}
+
+.sumi-sketch-expand:hover {
+  border-color: var(--sumi-accent-text);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .sumi-sketch-expand {
+    opacity: 1;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+/* The large view: a one-line note, the sketch taking all the room left
+   (its proportions kept), then one row with the moves and the pick. */
+.sumi-sketch-viewer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .5rem;
+  min-height: 0;
+}
+
+.sumi-sketch-viewer-note {
+  overflow: hidden;
+  color: var(--sumi-text-secondary);
+  font-size: .9rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sumi-sketch-stage {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  margin: 0;
+  overflow: auto;
+}
+
+.sumi-sketch-stage .sumi-sketch {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border: 0;
+  object-fit: contain;
+}
+
+.sumi-sketch-viewer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+}
+
+/* The pick stays on the right, with or without the moves. */
+.sumi-sketch-viewer-actions > .btn-primary {
+  margin-left: auto;
+}
+
+.sumi-sketch-viewer-nav {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.sumi-sketch-viewer-nav svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ── The wireframe editor ───────────────────────────────── */
+
+.sumi-wire-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+}
+
+.sumi-wire-toolbar .sumi-verdicts {
+  margin: .5rem 0 0;
+}
+
+.sumi-wire-toolbar svg {
+  display: inline;
+  width: .9rem;
+  height: .9rem;
+  vertical-align: -.12em;
+}
+
+.sumi-wire-region + .sumi-wire-region {
+  margin-top: .75rem;
+}
+
+.sumi-wire-region h4 {
+  margin: 0 0 .35rem;
+}
+
+.sumi-wire-blocks {
+  display: grid;
+  gap: .35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumi-wire-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .4rem .5rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+  background: var(--color-base-100);
+}
+
+.sumi-wire-block-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .2rem .5rem;
+  min-width: 0;
+  font-size: .85rem;
+  overflow-wrap: anywhere;
+}
+
+.sumi-wire-block-text small {
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-wire-note svg {
+  display: inline;
+  width: .8rem;
+  height: .8rem;
+  vertical-align: -.1em;
+}
+
+.sumi-wire-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+
+.sumi-wire-edit {
+  gap: .5rem;
+  padding: .6rem;
+}
+
+.sumi-wire-edit label {
+  display: grid;
+  gap: .2rem;
+  font-size: .75rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-wire-add, .sumi-wire-states {
+  margin: 1rem 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.sumi-wire-add legend, .sumi-wire-states legend {
+  margin-bottom: .35rem;
+  font-size: .85rem;
+  font-weight: 600;
+}
+
+.sumi-wire-state {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  align-items: center;
+  gap: .5rem;
+  margin: .35rem 0;
+}
+
+.sumi-wire-state .input, .sumi-wire-add .input {
+  width: 100%;
+}
+
+/* A state of a screen: its word, with a solid edge when it applies. */
+.sumi-state {
+  display: inline-block;
+  padding: .05rem .45rem;
+  border: 1px dashed var(--sumi-line-strong);
+  border-radius: var(--radius-field);
+  font-size: .75rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-state.is-on {
+  border-style: solid;
+  border-color: var(--sumi-accent-text);
+  color: var(--color-base-content);
+  box-shadow: inset 0 -2px 0 var(--color-sumi-blade);
+}
+
+.sumi-state-list {
+  display: grid;
+  gap: .35rem;
+  margin: .75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: .85rem;
+}
+
+/* ── The breadboard: screens and what leads where ───────── */
+
+.sumi-screens {
+  display: grid;
+  gap: .75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumi-screen {
+  display: grid;
+  gap: .45rem;
+  padding: .6rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+}
+
+.sumi-screen-head {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.sumi-screen-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.sumi-screen-moves {
+  display: flex;
+  gap: .3rem;
+}
+
+.sumi-affordances {
+  display: grid;
+  gap: .4rem;
+  margin: 0;
+  padding: 0 0 0 .75rem;
+  border-left: 2px solid var(--sumi-line);
+  list-style: none;
+}
+
+.sumi-affordance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+}
+
+.sumi-affordance > .input {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.sumi-screen-purpose, .sumi-screen .sumi-inline-field .input {
+  width: 100%;
+}
+
+.sumi-affordance-to {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .75rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-screen-stories summary {
+  cursor: pointer;
+  font-size: .8rem;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-screen-stories .sumi-chips {
+  margin-top: .4rem;
+}
+
+.sumi-screen-add {
+  margin-top: .75rem;
+}
+
+.sumi-sitemap {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: .85rem;
+}
+
+.sumi-sitemap ul {
+  margin: .15rem 0 .4rem;
+  padding-left: 1rem;
+  color: var(--sumi-text-secondary);
+}
+
+/* ── Screens on a board ─────────────────────────────────── */
+
+.sumi-sketch-thumbs > *, .sumi-story-frame > *, .sumi-wire-view > * {
+  min-width: 0;
+}
+
+.sumi-sketch-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
+  gap: .75rem;
+}
+
+.sumi-sketch-thumb {
+  display: grid;
+  gap: .35rem;
+  width: 100%;
+  padding: .35rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  font-size: .75rem;
+  text-align: left;
+}
+
+.sumi-sketch-thumb[aria-expanded="true"] {
+  border-color: var(--sumi-accent-text);
+  box-shadow: inset 0 -3px 0 var(--color-sumi-blade);
+}
+
+.sumi-sketch-thumb .sumi-sketch {
+  max-height: 12rem;
+  object-fit: cover;
+  object-position: top;
+}
+
+.sumi-wire-view {
+  margin-top: 1rem;
+  padding: .75rem;
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+}
+
+.sumi-wire-view-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.sumi-wire-view-head h5 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.sumi-state-matrix td {
+  vertical-align: top;
+}
+
+.sumi-state-matrix small {
+  display: block;
+  margin-top: .2rem;
+  color: var(--sumi-text-secondary);
+}
+
+/* ── The storyboard ─────────────────────────────────────── */
+
+.sumi-journey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin: .5rem 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: journey;
+}
+
+.sumi-journey li {
+  counter-increment: journey;
+}
+
+.sumi-journey .sumi-chip::before {
+  content: counter(journey) ". ";
+}
+
+.sumi-journey .sumi-chip[aria-current] {
+  border-color: var(--sumi-accent-text);
+  box-shadow: inset 0 -3px 0 var(--color-sumi-blade);
+  font-weight: 600;
+}
+
+.sumi-story-frame {
+  display: grid;
+  gap: .5rem;
+  padding: .75rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-box);
+}
+
+.sumi-story-frame h5 {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.sumi-story-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumi-story-stay {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: var(--sumi-control-height);
+  padding: 0 .6rem;
+  border: 1px dashed var(--sumi-line);
+  border-radius: var(--radius-field);
+  font-size: .8rem;
+}
+
+.sumi-story-stay small {
+  color: var(--sumi-text-secondary);
+}
+
+/* ── Samples for products without screens ───────────────── */
+
+.sumi-specimen-picks {
+  display: grid;
+  gap: .6rem;
+}
+
+.sumi-specimen-pick {
+  display: grid;
+  gap: .5rem;
+  text-align: left;
+}
+
+.sumi-specimen-text {
+  margin: 0;
+  padding: .6rem .75rem;
+  overflow-x: auto;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+  background: var(--color-base-200);
+  color: var(--color-base-content);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .8rem;
+  line-height: 1.5;
+  white-space: pre;
+  tab-size: 2;
+}
+
+textarea.sumi-specimen-text {
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+.sumi-specimen-edit {
+  display: grid;
+  gap: .35rem;
+  margin-top: .75rem;
+  font-size: .85rem;
+}
+
+@media (max-width: 540px) {
+  .sumi-sketch-picks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* On a phone the sketch runs the full width at its own proportions;
+     a tall one scrolls in the stage. The note may take two lines. */
+  .sumi-sketch-stage {
+    align-items: flex-start;
+  }
+
+  /* Auto margins centre a short sketch and still let a tall one scroll
+     from its top. */
+  .sumi-sketch-stage .sumi-sketch {
+    height: auto;
+    margin-block: auto;
+  }
+
+  .sumi-sketch-viewer-note {
+    display: -webkit-box;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .sumi-wire-state {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sumi-sketch-pick, .sumi-sketch-thumb, .sumi-sketch-expand {
+    transition: none;
+  }
+}

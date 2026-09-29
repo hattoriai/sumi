@@ -40,6 +40,7 @@
 
 .sumi-recommended::before {
   content: '★ ';
+  content: '★ ' / '';
 }
 
 .sumi-card-hint {
@@ -79,6 +80,7 @@
 
 .sumi-toggle[aria-pressed="true"]::before, .sumi-chip[aria-pressed="true"]::before {
   content: '✓ ';
+  content: '✓ ' / '';
 }
 
 .sumi-icon-button {
@@ -141,6 +143,7 @@
 
 .sumi-pair-side[aria-pressed="true"] .choice-label::before {
   content: '✓ ';
+  content: '✓ ' / '';
   color: var(--sumi-accent-text);
 }
 
@@ -488,8 +491,387 @@
 
 .sumi-inline-field {
   display: flex;
+  flex-wrap: wrap;
   gap: .5rem;
   align-items: center;
+}
+
+.sumi-inline-field > .input, .sumi-inline-field > .select {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+/* Words the person added, as removable chips, above an inline field. */
+.sumi-add {
+  display: grid;
+  gap: .5rem;
+  margin: 0 0 1.5rem;
+}
+
+.sumi-chips {
+  list-style: none;
+  padding: 0;
+  margin: .25rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.sumi-chips > li {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+}
+
+.sumi-chip svg {
+  width: .85rem;
+  height: .85rem;
+  display: inline;
+  vertical-align: -.12em;
+}
+
+.sumi-chip .sumi-meta {
+  margin-left: .3rem;
+}
+
+.sumi-chip.is-on {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  border-color: var(--sumi-accent-text);
+}
+
+.sumi-chip-remove {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: var(--radius-field);
+  background: none;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-chip-remove:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 1px;
+}
+
+/* A removal that can be taken back: what happened, and Undo. */
+.sumi-undo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem;
+  margin: .75rem 0;
+  padding: .45rem .75rem;
+  border-left: 2px solid var(--color-sumi-blade);
+  background: var(--color-base-200);
+  font-size: .8rem;
+}
+
+.sumi-undo svg {
+  width: .85rem;
+  height: .85rem;
+  display: inline;
+  vertical-align: -.12em;
+}
+
+/* Less frequent moves behind a native disclosure: a summary styled as an
+   icon button, and a menu of labelled buttons. */
+.sumi-more {
+  position: relative;
+}
+
+.sumi-more > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.sumi-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sumi-more-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + .25rem);
+  z-index: 10;
+  display: grid;
+  min-width: 14rem;
+  padding: .3rem;
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+  box-shadow: 0 .5rem 1.5rem oklch(0% 0 0 / .18);
+}
+
+.sumi-more-menu button {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: var(--sumi-control-height);
+  padding: 0 .6rem;
+  border: 0;
+  border-radius: var(--radius-field);
+  background: none;
+  color: var(--color-base-content);
+  font-size: .8rem;
+  text-align: left;
+}
+
+.sumi-more-menu button:hover, .sumi-more-menu button:focus-visible {
+  background: var(--color-base-200);
+}
+
+.sumi-more-menu svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+/* A story map to edit: numbered steps, each holding its stories grouped
+   by version. The first version carries the blade edge (and its name). */
+.sumi-storymap-legend {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1rem;
+  font-size: .75rem;
+}
+
+.sumi-storymap-legend li {
+  display: flex;
+  gap: .35rem;
+}
+
+.sumi-storymap-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  display: grid;
+  gap: .75rem;
+}
+
+.sumi-storymap-step {
+  display: grid;
+  gap: .6rem;
+  padding: .75rem;
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+}
+
+.sumi-storymap-step-head {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr auto;
+  align-items: center;
+  gap: .6rem;
+}
+
+.sumi-storymap-step-title {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.sumi-storymap-story-title {
+  overflow-wrap: anywhere;
+}
+
+.sumi-storymap-moves {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .3rem;
+}
+
+.sumi-storymap-slice {
+  padding-top: .45rem;
+  border-top: 1px dashed var(--sumi-line-strong);
+}
+
+.sumi-storymap-slice.slice-1 {
+  border-top: 2px solid var(--color-sumi-blade);
+}
+
+.sumi-storymap-slice > .sumi-meta {
+  margin: 0 0 .35rem;
+}
+
+.sumi-storymap-slice ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: .35rem;
+}
+
+.sumi-storymap-story {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: .5rem;
+  padding: .3rem .3rem .3rem .6rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+  background: var(--color-base-100);
+  font-size: .85rem;
+}
+
+.sumi-storymap-slice.slice-never .sumi-storymap-story-title {
+  text-decoration: line-through;
+  text-decoration-color: var(--sumi-text-tertiary);
+}
+
+@media (pointer: fine) {
+  .sumi-storymap-moves .sumi-icon-button {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .sumi-storymap-story {
+    grid-template-columns: 1fr;
+  }
+
+  .sumi-storymap-moves {
+    justify-content: flex-start;
+  }
+}
+
+/* Things to confirm: one row per thing that opens to shape it, and the
+   relationships between them. */
+.sumi-objects {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: .5rem;
+}
+
+.sumi-object {
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+}
+
+.sumi-object-toggle {
+  width: 100%;
+  display: grid;
+  gap: .2rem;
+  padding: .7rem .85rem;
+  border: 0;
+  border-radius: var(--radius-box);
+  background: none;
+  color: var(--color-base-content);
+  text-align: left;
+}
+
+.sumi-object-toggle[aria-expanded="true"] {
+  border-bottom: 1px solid var(--sumi-line);
+  border-radius: var(--radius-box) var(--radius-box) 0 0;
+  box-shadow: inset 3px 0 0 var(--color-sumi-blade);
+}
+
+.sumi-object-toggle:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+.sumi-object-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.sumi-object-missing {
+  color: var(--sumi-accent-text);
+  font-size: .8rem;
+}
+
+.sumi-object-missing::before {
+  content: '○ ';
+  content: '○ ' / '';
+}
+
+.sumi-object-body {
+  display: grid;
+  gap: 1rem;
+  padding: .75rem .85rem 1rem;
+}
+
+.sumi-object-body > .quiet-link {
+  justify-self: start;
+}
+
+.sumi-object-body .quiet-link svg, .sumi-relationships .quiet-link svg {
+  width: .9rem;
+  height: .9rem;
+  display: inline;
+  vertical-align: -.12em;
+}
+
+.sumi-object-part {
+  display: grid;
+  gap: .45rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.sumi-object-part legend {
+  margin-bottom: .35rem;
+  color: var(--sumi-text-secondary);
+  font-size: .75rem;
+  font-weight: 600;
+}
+
+.sumi-object-part .sumi-choices {
+  margin: .25rem 0;
+}
+
+.sumi-attribute {
+  display: inline-flex;
+  gap: .25rem;
+}
+
+.sumi-relationships {
+  display: grid;
+  gap: .6rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.sumi-relationships h3 {
+  margin: 0;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.sumi-relationships > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: .5rem;
+}
+
+.sumi-relationship {
+  display: grid;
+  gap: .45rem;
+  padding: .6rem .7rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+}
+
+.sumi-relationship-ends {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .4rem;
+  margin: 0;
 }
 
 /* Drag enhancement: the zone under the pointer and the card in flight. */
@@ -527,5 +909,39 @@
 @media (prefers-reduced-motion: no-preference) {
   .sumi-toggle, .sumi-chip, .sumi-icon-button, .sumi-grid-toggle {
     transition: background-color var(--sumi-motion) ease, border-color var(--sumi-motion) ease;
+  }
+}
+
+/* Placing one piece of work on a larger map: a name field, then labelled
+   parts, each a list of .sumi-choice buttons with a last "new" choice that
+   opens a field, and a row of .sumi-chip toggles for the version. */
+.sumi-placement {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: .75rem;
+}
+
+.sumi-placement-part {
+  display: grid;
+  gap: .45rem;
+  min-width: 0;
+}
+
+.sumi-placement-part .sumi-label {
+  margin: 0;
+}
+
+
+/* Touch screens: every control a finger has to hit is at least 44 by 44
+   CSS pixels (WCAG 2.2 target size). Pointer screens keep the compact
+   sizes above. */
+@media (pointer: coarse) {
+  .sumi-toggle, .sumi-chip, .sumi-choice {
+    min-height: 2.75rem;
+  }
+
+  .sumi-icon-button, .sumi-chip-remove {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
   }
 }

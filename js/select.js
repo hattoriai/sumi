@@ -1,11 +1,16 @@
 // LiveView adapter for the Sumi single-value select. Its ignored root owns local
 // selection until submission; the named hidden input participates in the form.
+// An option may carry `data-description`, a plain line shown under its label
+// in the open list; the chosen option's description also shows under the
+// control (`[data-select-description]`), named by the control's
+// `aria-describedby`.
 export const SumiSelect = {
   mounted() {
     const root = this.el;
     const trigger = root.querySelector('[aria-haspopup]');
     const list = root.querySelector('[role=listbox]');
     const input = root.querySelector('input');
+    const description = root.querySelector('[data-select-description]');
     const options = [...list.querySelectorAll('[role=option]')];
     let search = '';
     let lastKey = 0;
@@ -25,8 +30,14 @@ export const SumiSelect = {
       const option = event.target.closest('[role=option]');
       if (!option) return;
       input.value = option.dataset.value;
-      trigger.querySelector('[data-select-label]').textContent = option.textContent.trim();
+      const label = option.querySelector('[data-option-label]');
+      trigger.querySelector('[data-select-label]').textContent = (label || option).textContent.trim();
       options.forEach(item => item.setAttribute('aria-selected', String(item === option)));
+      if (description) {
+        const text = option.dataset.description || '';
+        description.textContent = text;
+        description.hidden = text === '';
+      }
       input.dispatchEvent(new Event('input', { bubbles: true }));
       close(true);
     });
@@ -49,7 +60,10 @@ export const SumiSelect = {
         if (list.hidden) open();
         search = Date.now() - lastKey > 600 ? event.key : search + event.key;
         lastKey = Date.now();
-        options.find(option => option.textContent.trim().toLowerCase().startsWith(search.toLowerCase()))?.focus();
+        const startsWith = option =>
+          (option.querySelector('[data-option-label]') || option).textContent.trim()
+            .toLowerCase().startsWith(search.toLowerCase());
+        options.find(startsWith)?.focus();
       }
     });
     this.outside = event => { if (!root.contains(event.target)) close(); };

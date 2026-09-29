@@ -24,3 +24,67 @@
 .sumi-dialog label { display: block; margin-bottom: .75rem; }
 .sumi-dialog code { overflow-wrap: anywhere; }
 .sumi-dialog-actions { display: flex; gap: .75rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* The head: the title, and a close button when the dialog has one. */
+.sumi-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sumi-dialog-head > button { flex-shrink: 0; }
+
+/* Optional tools in the head (toggles), between the title and Close. */
+.sumi-dialog-head-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-left: auto;
+}
+
+.sumi-dialog-head-tools .sumi-verdicts { margin: 0; }
+
+/* A large dialog: most of the screen, for looking at one thing closely
+   (a drawing, a preview); the whole screen on phones. Its body is a
+   column: a compact head, the part that takes all the room left
+   (`flex: 1; min-height: 0`), then a compact foot. `dialog.` raises the
+   specificity above any plain `.sumi-dialog` or `dialog` rule. */
+dialog.sumi-dialog.sumi-dialog-large {
+  width: min(96vw, 1600px);
+  max-width: none;
+  height: 92dvh;
+  max-height: none;
+  overflow: hidden;
+  border-top: 1px solid var(--color-base-300);
+}
+
+.sumi-dialog-large .sumi-dialog-body {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  height: 100%;
+  padding: .75rem 1rem;
+}
+
+.sumi-dialog-large .sumi-dialog-head { align-items: center; }
+/* `dialog.` again: the dialog may sit inside a page's own heading rules. */
+dialog.sumi-dialog-large h2 { font-size: 1.35rem; line-height: 1.25; margin: 0; min-width: 0; }
+dialog.sumi-dialog-large p { margin: 0; }
+
+@media (max-width: 540px) {
+  dialog.sumi-dialog.sumi-dialog-large {
+    width: 100vw;
+    height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .sumi-dialog-large .sumi-dialog-body { padding: .5rem .75rem; gap: .4rem; }
+
+  /* The tools take their own row under the title and Close. */
+  .sumi-dialog-large .sumi-dialog-head { flex-wrap: wrap; row-gap: .4rem; }
+  .sumi-dialog-large .sumi-dialog-head-tools { order: 1; flex-basis: 100%; margin-left: 0; }
+  dialog.sumi-dialog-large h2 { font-size: 1.15rem; }
+}
