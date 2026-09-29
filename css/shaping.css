@@ -121,6 +121,13 @@
   color: var(--sumi-accent-text);
 }
 
+/* A proposal the other board did not take: kept as a record, struck
+   through as well as the word. */
+.sumi-status.rejected {
+  border-style: dashed;
+  text-decoration: line-through;
+}
+
 .sumi-specimen {
   background: var(--sample-bg);
   color: var(--sample-fg);
@@ -356,14 +363,17 @@
 
 .sumi-four-box-axis.y span:first-child::before {
   content: '↑ ';
+  content: '↑ ' / '';
 }
 
 .sumi-four-box-axis.y span:last-child::before {
   content: '↓ ';
+  content: '↓ ' / '';
 }
 
 .sumi-four-box-axis.x span:last-child::after {
   content: ' →';
+  content: ' →' / '';
 }
 
 @media (max-width: 540px) {
@@ -529,4 +539,364 @@
 
 .sumi-table-actions .page-actions details[open] {
   flex-basis: 100%;
+}
+
+/* A story map on the board: the steps across the top, the versions down
+   the side, each story in its cell. The first version's row carries the
+   blade edge as well as its name. It scrolls inside .sumi-table-wrap. */
+.sumi-storymap-grid {
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: .4rem;
+  font-size: .8rem;
+}
+
+.sumi-storymap-grid caption {
+  text-align: left;
+  margin-bottom: .25rem;
+}
+
+.sumi-storymap-grid thead th {
+  min-width: 11rem;
+  vertical-align: bottom;
+  text-align: left;
+  font-weight: 400;
+}
+
+.sumi-storymap-grid tbody th {
+  width: 7rem;
+  padding-top: .5rem;
+  vertical-align: top;
+  text-align: left;
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+.sumi-storymap-grid tbody th small {
+  display: block;
+  margin-top: .2rem;
+  color: var(--sumi-text-secondary);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.sumi-storymap-grid td {
+  padding-top: .4rem;
+  vertical-align: top;
+  border-top: 1px dashed var(--sumi-line-strong);
+}
+
+.sumi-storymap-grid tr.slice-1 td {
+  border-top: 2px solid var(--color-sumi-blade);
+}
+
+.sumi-storymap-grid td > .sumi-board-page + .sumi-board-page {
+  margin-top: .4rem;
+}
+
+/* A permission matrix: actions grouped by thing (rows), roles (columns),
+   and a mark in each cell. Give each cell a sentence for screen readers. */
+.sumi-matrix {
+  min-width: 24rem;
+}
+
+.sumi-matrix thead th, .sumi-matrix td {
+  text-align: center;
+}
+
+.sumi-matrix tbody th[scope="row"] {
+  padding-left: .75rem;
+  font-weight: 400;
+}
+
+.sumi-matrix-group th {
+  padding-top: .9rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+.sumi-matrix-cell {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+  color: var(--sumi-text-tertiary);
+}
+
+.sumi-matrix-cell.yes {
+  border-color: var(--sumi-accent-text);
+  box-shadow: inset 0 -2px 0 var(--color-sumi-blade);
+  color: var(--color-base-content);
+}
+
+/* An example's verdict: a word in a chip. Right is solid, wrong is struck
+   through with a dashed edge, not sure has a dotted edge, so colour never
+   carries the verdict alone. */
+.sumi-verdict {
+  display: inline-block;
+  margin-top: .4rem;
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .2rem .45rem;
+  border: 1px solid var(--sumi-line-strong);
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-verdict.right {
+  color: var(--sumi-success-text);
+  border-color: currentColor;
+}
+
+.sumi-verdict.wrong {
+  border-style: dashed;
+  text-decoration: line-through;
+}
+
+.sumi-verdict.unsure {
+  border-style: dotted;
+  color: var(--sumi-accent-text);
+}
+
+/* Given, when, then: the words in a narrow column, the text beside them. */
+.sumi-given-when-then {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .25rem .75rem;
+  margin: .25rem 0 0;
+  font-size: .875rem;
+}
+
+.sumi-given-when-then dt {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--sumi-text-secondary);
+  padding-top: .15rem;
+}
+
+.sumi-given-when-then dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* A flow: numbered steps on a line, and under a step what can fail, each
+   with how it is handled on a dashed branch. `.open` marks a failure
+   nobody has decided on yet. */
+.sumi-flow {
+  list-style: none;
+  counter-reset: sumi-flow;
+  margin: .5rem 0 0;
+  padding: 0 0 0 .6rem;
+  border-left: 2px solid var(--sumi-line-strong);
+}
+
+.sumi-flow-step {
+  counter-increment: sumi-flow;
+  position: relative;
+  padding: .35rem 0 .35rem 1.1rem;
+}
+
+.sumi-flow-step::before {
+  content: counter(sumi-flow);
+  position: absolute;
+  left: -1.15rem;
+  top: .35rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: grid;
+  place-items: center;
+  font-size: .65rem;
+  background: var(--color-base-100);
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: 999px;
+}
+
+.sumi-flow-text {
+  font-size: .9rem;
+}
+
+.sumi-flow-failures {
+  list-style: none;
+  margin: .3rem 0 0;
+  padding: 0 0 0 .9rem;
+  border-left: 1px dashed var(--sumi-line-strong);
+}
+
+.sumi-flow-failure {
+  padding: .2rem 0;
+  font-size: .85rem;
+  overflow-wrap: anywhere;
+}
+
+.sumi-flow-handling {
+  display: block;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-flow-handling.open {
+  color: var(--sumi-accent-text);
+  font-style: italic;
+}
+
+/* A notice that something changed elsewhere and needs a look: a blade
+   edge, a heading that says what to do, short labelled lists, and one
+   action that clears it. */
+.sumi-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
+  padding: .85rem 1rem;
+  border: 1px solid var(--sumi-line-strong);
+  border-left: 3px solid var(--color-sumi-blade);
+  background: color-mix(in srgb, var(--color-sumi-blade) 6%, var(--color-base-100));
+}
+
+.sumi-notice h2 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin: 0 0 .35rem;
+}
+
+.sumi-notice ul {
+  list-style: none;
+  padding: 0;
+  margin: .15rem 0 .5rem;
+}
+
+.sumi-notice li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem;
+  padding: .15rem 0;
+  overflow-wrap: anywhere;
+}
+
+.sumi-notice > div {
+  min-width: 0;
+  flex: 1 1 18rem;
+}
+
+.sumi-notice button {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.sumi-notice button svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+/* A calm notice: something is less than it could be, and one quiet action
+   may help (guided options shown because AI could not tailor them). It
+   stays until the reason goes; it never shouts. */
+.sumi-notice.calm {
+  align-items: center;
+  border-style: dashed;
+  border-left: 2px solid var(--sumi-line-strong);
+  background: transparent;
+  padding: .7rem .9rem;
+  margin: .25rem 0 1rem;
+}
+
+.sumi-notice .sumi-notice-title {
+  font-weight: 600;
+  margin: 0 0 .15rem;
+}
+
+.sumi-notice.calm p {
+  margin: 0;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-notice.calm .sumi-notice-title {
+  color: inherit;
+}
+
+/* Suggestions from elsewhere that wait for a decision: each row says what
+   it is, where it came from, and offers both answers as buttons. */
+.sumi-proposals {
+  border: 1px dotted var(--sumi-line-strong);
+  padding: .75rem 1rem;
+  margin: 1rem 0;
+}
+
+.sumi-proposals h3 {
+  font-size: .95rem;
+  margin: 0 0 .25rem;
+}
+
+.sumi-proposals ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sumi-proposal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem 1rem;
+  padding: .55rem 0;
+  border-top: 1px solid var(--sumi-line);
+}
+
+.sumi-proposal:first-child {
+  border-top: 0;
+}
+
+.sumi-proposal-text {
+  display: grid;
+  gap: .1rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sumi-proposal-text small {
+  color: var(--sumi-text-secondary);
+  font-size: .75rem;
+}
+
+.sumi-proposal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.sumi-proposal-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  min-height: 2.25rem;
+  padding: .25rem .65rem;
+  border: 1px solid var(--sumi-line-strong);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sumi-proposal-actions button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.sumi-proposal-actions button:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+
+/* Touch screens: 44px targets (see cards.css). */
+@media (pointer: coarse) {
+  .sumi-proposal-actions button, .sumi-notice button {
+    min-height: 2.75rem;
+  }
 }
