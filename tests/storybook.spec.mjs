@@ -75,6 +75,18 @@ test('personal menu keyboard navigation and dismissal', async ({ page }) => {
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 });
 
+test('theme flip switches between ink and paper and names the next choice', async ({ page }) => {
+  await open(page, 'controls-navigation--theme-flip');
+  const flip = page.locator('[data-sumi-theme-flip]');
+  await flip.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(flip).toHaveAttribute('aria-label', 'Switch to ink');
+  expect(await page.evaluate(() => localStorage.getItem('sumi:theme'))).toBe('light');
+  await flip.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(flip).toHaveAttribute('aria-label', 'Switch to paper');
+});
+
 test('decision controls update state and keyboard movement remains available', async ({ page }) => {
   await open(page, 'patterns-decisions--choices');
   await page.getByRole('button', { name: /Explore the whole/ }).click();

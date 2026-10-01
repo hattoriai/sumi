@@ -24,3 +24,14 @@ export const SectionNavigation = {
       };
     }),
 };
+export const ThemeFlip = {
+  render: () => page('Ink or paper', 'One yin-yang flips between ink and paper and remembers the choice. Its name says what it does next. On paper the dark half is at the top; on ink it turns to the bottom.',
+    `<button type="button" class="sumi-theme-flip" data-sumi-theme-flip aria-label="Switch to paper" title="Switch to paper">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.25" />
+    <path d="M12 2 A10 10 0 0 1 12 22 A5 5 0 0 1 12 12 A5 5 0 0 0 12 2 Z" fill="currentColor" />
+    <circle cx="12" cy="7" r="1.5" fill="currentColor" />
+    <circle class="sumi-theme-flip-eye" cx="12" cy="17" r="1.5" />
+  </svg>
+</button>`),
+};

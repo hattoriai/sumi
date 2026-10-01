@@ -10,7 +10,7 @@ The files use Tailwind v4 and the daisyUI theme plugin.
 In a Phoenix app, add Sumi as a Mix dependency that is not compiled:
 
 ```elixir
-{:sumi, github: "hattoriai/sumi", tag: "v0.1.0", app: false, compile: false, depth: 1}
+{:sumi, github: "hattoriai/sumi", tag: "v0.3.0", app: false, compile: false, depth: 1}
 ```
 
 Phoenix's Tailwind and esbuild profiles put `deps/` on `NODE_PATH`, so
@@ -29,7 +29,7 @@ import "sumi/js/theme";
 In an app that uses npm, install the same tag:
 
 ```sh
-npm install github:hattoriai/sumi#v0.1.0
+npm install github:hattoriai/sumi#v0.3.0
 ```
 
 ## Canonical choices
@@ -136,6 +136,24 @@ under `sumi:theme`, follows system changes and syncs other tabs. In
 LiveView, give the group an `id` and `phx-update="ignore"`. The same
 `data-sumi-theme` buttons work anywhere, for example as larger
 `.sumi-choice` cards on a settings page.
+
+For a marketing page or a signed-out header, `.sumi-theme-flip` is one
+yin-yang button that flips between ink and paper. Any light theme, snow
+too, flips to ink. Give it `data-sumi-theme-flip`; `js/theme.js` stores the
+choice like the three-way control and keeps the button's name ("Switch to
+paper" or "Switch to ink") current. The rotation comes from
+`--sumi-flip-turn`, so a new light theme needs no change here.
+
+```html
+<button type="button" class="sumi-theme-flip" data-sumi-theme-flip aria-label="Switch to paper" title="Switch to paper">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.25" />
+    <path d="M12 2 A10 10 0 0 1 12 22 A5 5 0 0 1 12 12 A5 5 0 0 0 12 2 Z" fill="currentColor" />
+    <circle cx="12" cy="7" r="1.5" fill="currentColor" />
+    <circle class="sumi-theme-flip-eye" cx="12" cy="17" r="1.5" />
+  </svg>
+</button>
+```
 
 Render `data-theme="dark"` and `data-sumi-themes="dark light snow"` (the
 app's theme ids) on `<html>`. To prevent a flash of the wrong theme, set

@@ -47,3 +47,56 @@
     transition: color var(--sumi-motion) ease, background-color var(--sumi-motion) ease;
   }
 }
+
+/* The theme flip: one yin-yang button that flips between ink and paper.
+   Use it where the three-way control is too much, for example on a
+   marketing page or a signed-out header. On paper the dark half is at the
+   top; on ink it turns to the bottom. */
+.sumi-theme-flip {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sumi-text-muted);
+  cursor: pointer;
+}
+
+.sumi-theme-flip:hover {
+  color: var(--color-base-content);
+}
+
+.sumi-theme-flip:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+.sumi-theme-flip svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: rotate(var(--sumi-flip-turn));
+}
+
+/* The eye in the light half shows the page through it. */
+.sumi-theme-flip-eye {
+  fill: var(--color-base-100);
+}
+
+@media (pointer: coarse) {
+  .sumi-theme-flip {
+    width: var(--sumi-control-height);
+    height: var(--sumi-control-height);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sumi-theme-flip {
+    transition: color var(--sumi-motion) ease;
+  }
+
+  .sumi-theme-flip svg {
+    transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
