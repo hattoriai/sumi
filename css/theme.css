@@ -19,10 +19,11 @@
   --color-base-content: oklch(95% 0.012 85);
   /* blade: #e84a1c — the signature orange */
   --color-primary: oklch(58% 0.2 32);
-  --color-primary-content: oklch(98% 0.005 85);
+  /* ink on blade: about 5:1, where paper on blade is 3.7:1 */
+  --color-primary-content: oklch(12% 0.003 270);
   /* ember: #ff6b3d — bright warm accent */
   --color-secondary: oklch(66% 0.2 42);
-  --color-secondary-content: oklch(98% 0.005 85);
+  --color-secondary-content: oklch(12% 0.003 270);
   /* paper as accent for contrast elements */
   --color-accent: oklch(95% 0.012 85);
   --color-accent-content: oklch(12% 0.003 270);
@@ -63,10 +64,11 @@
   --color-base-content: oklch(15% 0.003 270);
   /* blade: #e84a1c — same signature orange */
   --color-primary: oklch(58% 0.2 32);
-  --color-primary-content: oklch(98% 0.005 85);
+  /* ink on blade: about 5:1, where paper on blade is 3.7:1 */
+  --color-primary-content: oklch(12% 0.003 270);
   /* ember: bright warm */
   --color-secondary: oklch(66% 0.2 42);
-  --color-secondary-content: oklch(98% 0.005 85);
+  --color-secondary-content: oklch(12% 0.003 270);
   /* ink as accent */
   --color-accent: oklch(15% 0.003 270);
   --color-accent-content: oklch(96% 0.01 85);
@@ -108,9 +110,10 @@
   /* ink, slightly softened for long reading on white */
   --color-base-content: oklch(20% 0.006 270);
   --color-primary: oklch(58% 0.2 32);
-  --color-primary-content: oklch(98% 0.005 85);
+  /* ink on blade: about 5:1, where paper on blade is 3.7:1 */
+  --color-primary-content: oklch(12% 0.003 270);
   --color-secondary: oklch(66% 0.2 42);
-  --color-secondary-content: oklch(98% 0.005 85);
+  --color-secondary-content: oklch(12% 0.003 270);
   --color-accent: oklch(20% 0.006 270);
   --color-accent-content: oklch(99.5% 0.001 270);
   --color-neutral: oklch(50% 0.008 270);

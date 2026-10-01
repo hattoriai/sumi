@@ -10,7 +10,7 @@ The files use Tailwind v4 and the daisyUI theme plugin.
 In a Phoenix app, add Sumi as a Mix dependency that is not compiled:
 
 ```elixir
-{:sumi, github: "hattoriai/sumi", tag: "v0.3.0", app: false, compile: false, depth: 1}
+{:sumi, github: "hattoriai/sumi", tag: "v0.3.1", app: false, compile: false, depth: 1}
 ```
 
 Phoenix's Tailwind and esbuild profiles put `deps/` on `NODE_PATH`, so
@@ -29,7 +29,7 @@ import "sumi/js/theme";
 In an app that uses npm, install the same tag:
 
 ```sh
-npm install github:hattoriai/sumi#v0.3.0
+npm install github:hattoriai/sumi#v0.3.1
 ```
 
 ## Canonical choices
@@ -46,6 +46,8 @@ These are settled. Apps follow them; they do not redefine them.
 - **Blade is a line or a mark, not a fill for text.** Use it for the eyebrow
   rule, the wordmark accent, focus, the current navigation item, a row or
   card edge and the primary button. Body text keeps its colour on hover.
+  Small accent text, such as the eyebrow label, uses `--sumi-accent-text`,
+  which passes AA in every theme. Text on a blade or ember fill is ink.
 - **Two typefaces.** Cormorant Garamond at weight 300 with `-0.02em`
   tracking for display type and moments of meaning. Outfit at weight 300
   for interface text, and 500 for labels.
