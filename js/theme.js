@@ -3,6 +3,8 @@
 // data-theme-source before first paint with the boot snippet in the README;
 // this module keeps them current. "system" follows the device: dark, or
 // light when the device asks for it. Without a choice, Sumi is dark.
+// A [data-sumi-theme-flip] button flips between ink and paper; any light
+// theme flips to ink.
 const KEY = 'sumi:theme';
 const root = document.documentElement;
 const lightSystem = matchMedia('(prefers-color-scheme: light)');
@@ -18,6 +20,16 @@ function current() {
 function syncButtons(choice = current()) {
   document.querySelectorAll('[data-sumi-theme]').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.sumiTheme === choice));
+  });
+  syncFlips();
+}
+
+// A flip names what it does next, so it needs no pressed state.
+function syncFlips() {
+  const next = root.dataset.theme === 'dark' ? 'Switch to paper' : 'Switch to ink';
+  document.querySelectorAll('[data-sumi-theme-flip]').forEach(button => {
+    button.setAttribute('aria-label', next);
+    button.title = next;
   });
 }
 
@@ -39,7 +51,12 @@ function choose(choice) {
 document.addEventListener('click', event => {
   const button = event.target.closest('[data-sumi-theme]');
   if (button) choose(button.dataset.sumiTheme);
+  if (event.target.closest('[data-sumi-theme-flip]')) choose(root.dataset.theme === 'dark' ? 'light' : 'dark');
 });
+
+// The theme can also change outside this module, for example in an app's
+// settings or in Storybook's toolbar.
+new MutationObserver(() => syncFlips()).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
 lightSystem.addEventListener('change', () => {
   if (root.dataset.themeSource !== 'user') applyTheme('system');

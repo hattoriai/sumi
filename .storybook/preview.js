@@ -1,6 +1,7 @@
 import './preview.css';
 import '../js/forms.js';
 import '../js/menu.js';
+import '../js/theme.js';
 
 export default {
   globalTypes: {

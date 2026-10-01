@@ -54,6 +54,8 @@
   --sumi-error-surface: color-mix(in srgb, var(--color-error) 12%, var(--color-base-100));
   --sumi-motion: 200ms;
   --sumi-control-height: 2.75rem;
+  /* The theme flip's yin-yang: its dark half is at the bottom on ink. */
+  --sumi-flip-turn: 180deg;
 
   /* Two content widths: one for reading, one for work surfaces. */
   --sumi-content-width: 56rem;
@@ -73,6 +75,7 @@
   --sumi-accent-text: oklch(48% .17 32);
   --sumi-success-text: oklch(40% .1 155);
   --sumi-error-text: oklch(44% .16 30);
+  --sumi-flip-turn: 0deg;
 }
 
 /* Shared page gutters keep headers, notices and settings aligned. */
