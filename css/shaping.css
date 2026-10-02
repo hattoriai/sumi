@@ -416,6 +416,104 @@
   color: var(--sumi-text-secondary);
 }
 
+/* A picture of the things a product keeps and how they belong together.
+   The app lays it out as inline SVG, twice: a map for wide spaces
+   (.sumi-domain-map-wide) and a column with arcs for narrow ones
+   (.sumi-domain-map-narrow); the figure is a size container and shows the
+   one that fits. Both drawings are aria-hidden: the app gives the same
+   links in words beside them. A thing is a .sumi-domain-thing (rect, a
+   .sumi-domain-name and an optional .sumi-domain-detail; .is-main marks
+   the thing at the centre). A link is a .sumi-domain-link (a line or
+   path, a .sumi-domain-end at each end saying "1" or "many", an optional
+   .sumi-domain-label); .is-open dashes one not answered yet. The caption
+   says what the lines and dashes mean, so the dash never speaks alone. */
+.sumi-domain-map {
+  container-type: inline-size;
+  margin: 1rem 0 1.5rem;
+}
+
+.sumi-domain-map svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.sumi-domain-map .sumi-domain-map-narrow {
+  max-width: 26rem;
+}
+
+.sumi-domain-map .sumi-domain-map-wide {
+  display: none;
+}
+
+@container (min-width: 520px) {
+  .sumi-domain-map .sumi-domain-map-wide {
+    display: block;
+  }
+
+  .sumi-domain-map .sumi-domain-map-narrow {
+    display: none;
+  }
+}
+
+.sumi-domain-thing rect {
+  fill: var(--color-base-100);
+  stroke: var(--sumi-line-strong);
+  stroke-width: 1;
+}
+
+.sumi-domain-thing.is-main rect {
+  stroke: var(--color-sumi-blade);
+}
+
+.sumi-domain-name {
+  fill: var(--color-base-content);
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 300;
+}
+
+.sumi-domain-detail {
+  fill: var(--sumi-text-secondary);
+  font-family: var(--font-body);
+  font-size: 11px;
+}
+
+.sumi-domain-link line, .sumi-domain-link path {
+  fill: none;
+  stroke: var(--sumi-line-strong);
+  stroke-width: 1.25;
+}
+
+.sumi-domain-link.is-open line, .sumi-domain-link.is-open path {
+  stroke-dasharray: 4 4;
+}
+
+.sumi-domain-end, .sumi-domain-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  paint-order: stroke;
+  stroke: var(--color-base-100);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.sumi-domain-end {
+  fill: var(--sumi-accent-text);
+  font-weight: 500;
+}
+
+.sumi-domain-label {
+  fill: var(--sumi-text-secondary);
+}
+
+.sumi-domain-map figcaption {
+  margin-top: .5rem;
+  color: var(--sumi-text-secondary);
+  font-size: .75rem;
+}
+
 /* A hairline table that scrolls sideways on narrow screens. A row of
    .sumi-table-actions under a row holds that row's actions. */
 .sumi-table-wrap {

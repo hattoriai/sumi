@@ -35,3 +35,46 @@ export const Loading = {
   render: () => page('While work arrives', 'Reserve the shape of the content while it loads. Reduced motion follows the shared accessibility styles.',
     `<div class="sumi-interview-skeleton" role="status" aria-label="Loading the next question"><div class="sumi-skeleton" style="height:2rem;width:65%" aria-hidden="true"></div><div class="sumi-skeleton" style="height:6rem;margin-top:1rem" aria-hidden="true"></div><span class="sr-only">Loading the next question…</span></div>`),
 };
+
+// The layout the app draws on the server, in a few lines: a map with the
+// most linked thing in the middle for wide spaces, a column with arcs for
+// narrow ones.
+const domain = {
+  things: [['Tender', 'Client · Value · Due'], ['Lot', 'Title · Value'], ['Client', 'Name · Country'], ['Bid', 'Price · Sent on']],
+  links: [[0, 1, 'one_many', ''], [2, 0, 'one_many', 'puts out'], [0, 3, 'one_many', ''], [3, 1, 'many_many', '', true]],
+};
+const ends = cardinality => ({ one_one: ['1', '1'], one_many: ['1', 'many'], many_many: ['many', 'many'] })[cardinality];
+const thing = (x, y, w, h, [name, detail], main) => `<g class="sumi-domain-thing${main ? ' is-main' : ''}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3"></rect><text class="sumi-domain-name" x="${x + 12}" y="${y + 26}">${name}</text><text class="sumi-domain-detail" x="${x + 12}" y="${y + 44}">${detail}</text></g>`;
+function wideMap() {
+  const w = 150, h = 56, cx = 320, rx = 240, ry = 150, cy = ry + h / 2 + 24;
+  const pos = [[cx, cy]];
+  const around = domain.things.length - 1;
+  for (let i = 0; i < around; i += 1) { const a = -Math.PI / 2 + (2 * Math.PI * i) / around; pos.push([cx + rx * Math.cos(a), cy + ry * Math.sin(a)]); }
+  const clip = ([x1, y1], [x2, y2]) => { const dx = x2 - x1, dy = y2 - y1; const t = Math.min(dx ? (w / 2) / Math.abs(dx) : Infinity, dy ? (h / 2) / Math.abs(dy) : Infinity); return [x1 + dx * t, y1 + dy * t]; };
+  const links = domain.links.map(([a, b, card, label, open]) => {
+    const [ax, ay] = clip(pos[a], pos[b]), [bx, by] = clip(pos[b], pos[a]);
+    const d = Math.hypot(bx - ax, by - ay) || 1, ux = (bx - ax) / d, uy = (by - ay) / d;
+    // Beside the line, 18px in from each end.
+    const at = (x, y, s) => [x + s * ux * 18 - uy * 10, y + s * uy * 18 + ux * 10 + 4];
+    const [e1x, e1y] = at(ax, ay, 1), [e2x, e2y] = at(bx, by, -1), [from, to] = ends(card);
+    return `<g class="sumi-domain-link${open ? ' is-open' : ''}"><line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}"></line><text class="sumi-domain-end" x="${e1x}" y="${e1y}" text-anchor="middle">${from}</text><text class="sumi-domain-end" x="${e2x}" y="${e2y}" text-anchor="middle">${to}</text>${label ? `<text class="sumi-domain-label" x="${(ax + bx) / 2 + uy * 10}" y="${(ay + by) / 2 - ux * 10 + 4}" text-anchor="middle">${label}</text>` : ''}</g>`;
+  }).join('');
+  const height = Math.max(...pos.map(([, y]) => y)) + h / 2 + 24;
+  return `<svg class="sumi-domain-map-wide" viewBox="0 0 640 ${height}" aria-hidden="true">${links}${domain.things.map((t, i) => thing(pos[i][0] - w / 2, pos[i][1] - h / 2, w, h, t, i === 0)).join('')}</svg>`;
+}
+function narrowMap() {
+  const w = 200, h = 52, row = 72, right = 16 + w;
+  // Each link leaves a thing at its own height, so the ends stack.
+  const used = domain.things.map(() => 0);
+  const slot = i => { const k = used[i]; used[i] += 1; return 16 + i * row + 8 + (k % 4) * 12; };
+  const links = domain.links.map(([a, b, card, label, open]) => {
+    const y1 = slot(a), y2 = slot(b), d = Math.min(36 + Math.abs(y2 - y1) / 2, 130), [from, to] = ends(card);
+    return `<g class="sumi-domain-link${open ? ' is-open' : ''}"><path d="M ${right} ${y1} C ${right + d} ${y1}, ${right + d} ${y2}, ${right} ${y2}"></path><text class="sumi-domain-end" x="${right + 4}" y="${y1 + 4}">${from}</text><text class="sumi-domain-end" x="${right + 4}" y="${y2 + 4}">${to}</text>${label ? `<text class="sumi-domain-label" x="${right + d * 0.75 + 4}" y="${(y1 + y2) / 2 + 4}">${label}</text>` : ''}</g>`;
+  }).join('');
+  return `<svg class="sumi-domain-map-narrow" viewBox="0 0 360 ${16 + domain.things.length * row}" aria-hidden="true">${links}${domain.things.map((t, i) => thing(16, 16 + i * row, w, h, t, i === 0)).join('')}</svg>`;
+}
+export const DomainMap = {
+  render: () => page('A picture of their world', 'The things a product keeps and how they belong together. Wide spaces get a map; narrow ones a column with arcs. The same links stay in words beside it.',
+    `<figure class="sumi-domain-map">${wideMap()}${narrowMap()}<figcaption>Lines join things that belong together; “many” marks the side that can have several. A dashed line is not answered yet.</figcaption></figure>` +
+    section('In words', '<ul><li>One tender has many lots.</li><li>One client puts out many tenders.</li><li>One tender has many bids.</li><li>Not answered yet: can a bid cover several lots?</li></ul>')),
+};
