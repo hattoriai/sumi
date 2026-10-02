@@ -874,6 +874,145 @@
   margin: 0;
 }
 
+/* Example records: each thing shown as one filled record from the
+   person's world, for people who have never seen a field editor. Each
+   field row carries a "Not right" toggle; a pressed one strikes the value
+   through. A record the person leaves out keeps its name, struck through,
+   and a dashed edge, with a word in the markup that says so. Links between
+   records are yes/no questions in .sumi-verdicts.
+
+   <ul class="sumi-records">
+     <li class="sumi-record [is-dropped]">
+       <div class="sumi-record-head"><h3 class="sumi-record-name">…</h3>
+         <button class="sumi-toggle" aria-pressed>Not ours</button></div>
+       <p class="sumi-record-definition">…</p>
+       <dl class="sumi-record-fields">
+         <div class="sumi-record-field"><dt>Value</dt>
+           <dd><span class="sumi-record-value">€40,000</span>
+           <button class="sumi-toggle" aria-pressed>Not right</button></dd></div>
+       </dl>
+       <div class="sumi-inline-field">…</div>
+     </li>
+   </ul>
+   <ul class="sumi-record-links"><li class="sumi-record-link">
+     <p>…?</p><div class="sumi-verdicts">…</div></li></ul> */
+.sumi-records, .sumi-record-links {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: .75rem;
+}
+
+.sumi-record {
+  display: grid;
+  gap: .75rem;
+  padding: .85rem 1rem 1rem;
+  border: 1px solid var(--sumi-line-strong);
+  border-radius: var(--radius-box);
+  background: var(--color-base-100);
+  box-shadow: inset 3px 0 0 var(--color-sumi-blade);
+}
+
+.sumi-record.is-dropped {
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.sumi-record-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.sumi-record-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 300;
+  overflow-wrap: anywhere;
+}
+
+.sumi-record.is-dropped .sumi-record-name {
+  text-decoration: line-through;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-record-definition {
+  margin: 0;
+  color: var(--sumi-text-secondary);
+  font-size: .85rem;
+}
+
+.sumi-record-fields {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--sumi-line);
+}
+
+.sumi-record-field {
+  display: grid;
+  grid-template-columns: minmax(6rem, 10rem) 1fr;
+  gap: .25rem .75rem;
+  align-items: center;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--sumi-line);
+}
+
+.sumi-record-field dt {
+  color: var(--sumi-text-secondary);
+  font-size: .75rem;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.sumi-record-field dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin: 0;
+}
+
+.sumi-record-value {
+  overflow-wrap: anywhere;
+}
+
+.sumi-record-field:has(.sumi-toggle[aria-pressed="true"]) .sumi-record-value {
+  text-decoration: line-through;
+  color: var(--sumi-text-secondary);
+}
+
+.sumi-record-field.is-added dt::after {
+  content: ' +';
+  content: ' +' / '';
+}
+
+.sumi-record-link {
+  display: grid;
+  gap: .25rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+}
+
+.sumi-record-link > p {
+  margin: 0;
+}
+
+.sumi-record-link .sumi-verdicts {
+  margin: .25rem 0 0;
+}
+
+@media (max-width: 480px) {
+  .sumi-record-field {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Drag enhancement: the zone under the pointer and the card in flight. */
 [data-drop-value][data-drop-active] {
   outline: 2px dashed var(--sumi-accent-text);

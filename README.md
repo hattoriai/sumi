@@ -10,7 +10,7 @@ The files use Tailwind v4 and the daisyUI theme plugin.
 In a Phoenix app, add Sumi as a Mix dependency that is not compiled:
 
 ```elixir
-{:sumi, github: "hattoriai/sumi", tag: "v0.3.1", app: false, compile: false, depth: 1}
+{:sumi, github: "hattoriai/sumi", tag: "v0.3.2", app: false, compile: false, depth: 1}
 ```
 
 Phoenix's Tailwind and esbuild profiles put `deps/` on `NODE_PATH`, so
@@ -29,7 +29,7 @@ import "sumi/js/theme";
 In an app that uses npm, install the same tag:
 
 ```sh
-npm install github:hattoriai/sumi#v0.3.1
+npm install github:hattoriai/sumi#v0.3.2
 ```
 
 ## Canonical choices
