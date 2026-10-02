@@ -73,3 +73,51 @@ export const ExampleRecords = {
       });
   },
 };
+
+export const OnePairAtATime = {
+  render: () => {
+    const pairs = [['Book a class', 'Make a reservation'], ['Hi Ana', 'Dear customer'], ['Short sentences', 'Full explanations'], ['Say what to do next', 'Show an error code']];
+    const picks = [];
+    let at = 0;
+    const root = page('One pair at a time', 'A long list asked as quick pairs. Picking a side moves on; Back and Neither stay one step away, and the picks so far can be changed.', '<div class="sumi-deck" data-deck></div>');
+    const deck = root.querySelector('[data-deck]');
+    const draw = () => {
+      const done = at >= pairs.length;
+      const [a, b] = pairs[Math.min(at, pairs.length - 1)];
+      deck.innerHTML = `<p class="sumi-deck-count" aria-live="polite">${done ? `All ${pairs.length} pairs seen` : `Pair ${at + 1} of ${pairs.length}`}</p><div class="sumi-deck-bar" style="--done: ${Math.round(100 * Math.min(at, pairs.length) / pairs.length)}%" aria-hidden="true"></div>` +
+        (done ? '' : `<div class="sumi-pair" role="group" aria-label="Which sounds like you?">${[a, b].map((label, i) => `${i ? '<span class="sumi-pair-or" aria-hidden="true">or</span>' : ''}<button class="sumi-choice sumi-pair-side" data-side="${i}" aria-pressed="${picks[at] === i}"><span class="choice-label">${label}</span></button>`).join('')}</div><div class="sumi-deck-moves"><button class="quiet-link" data-back ${at === 0 ? 'disabled' : ''}>Back</button><button class="sumi-toggle" data-neither>Neither</button></div>`) +
+        `<ul class="sumi-deck-picks" aria-label="Your picks">${picks.map((side, i) => side === undefined ? '' : `<li><span class="sumi-deck-kept">${pairs[i][side]}</span><span class="sumi-deck-not">${pairs[i][1 - side]}</span><button class="quiet-link" data-change="${i}">Change</button></li>`).join('')}</ul>`;
+    };
+    deck.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      if (button.dataset.side) { picks[at] = Number(button.dataset.side); at += 1; }
+      else if ('neither' in button.dataset) { picks[at] = undefined; at += 1; }
+      else if ('back' in button.dataset) at = Math.max(0, at - 1);
+      else if (button.dataset.change) at = Number(button.dataset.change);
+      draw();
+    });
+    draw();
+    return root;
+  },
+};
+
+export const Dial = {
+  render: () => {
+    const stops = [['A day or two', 'A small tool, or a quick test of the idea.'], ['A week or two', 'A focused first version.'], ['About six weeks', 'A first version people can rely on.'], ['A few months', 'Something big. The first slice should still be small.']];
+    const id = uid('dial');
+    const root = page('Turn the dial', 'Ordered choices as stops on one line between two words. Arrow keys move the dial; each stop is also a button.',
+      `<div class="sumi-dial" style="--stops: ${stops.length}"><div class="sumi-dial-ends" aria-hidden="true"><span>Small</span><span>Big</span></div><label class="sr-only" for="${id}">How much time does this first version deserve?</label><input id="${id}" type="range" min="0" max="${stops.length - 1}" step="1" value="1"><div class="sumi-dial-stops">${stops.map(([label], i) => `<button class="sumi-dial-stop" data-stop="${i}" aria-pressed="${i === 1}">${label}</button>`).join('')}</div><p class="sumi-dial-chosen" aria-live="polite"></p></div>`);
+    const input = root.querySelector('input');
+    const set = value => {
+      input.value = value;
+      input.setAttribute('aria-valuetext', stops[value][0]);
+      root.querySelectorAll('[data-stop]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.stop) === value)));
+      root.querySelector('.sumi-dial-chosen').innerHTML = `<strong>${stops[value][0]}</strong> <span>${stops[value][1]}</span>`;
+    };
+    input.addEventListener('input', () => set(Number(input.value)));
+    root.addEventListener('click', event => { const stop = event.target.closest('[data-stop]'); if (stop) set(Number(stop.dataset.stop)); });
+    set(1);
+    return root;
+  },
+};
