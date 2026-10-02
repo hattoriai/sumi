@@ -164,6 +164,192 @@
   border: 1px solid var(--sumi-line);
 }
 
+/* A deck: a list asked one pair at a time. A count and a hairline bar say
+   how far along it is; the pair is a .sumi-pair; Back and Neither sit
+   under it; the picks so far follow as a list, each with its own way back.
+
+   <div class="sumi-deck">
+     <p class="sumi-deck-count" aria-live="polite">Pair 2 of 6</p>
+     <div class="sumi-deck-bar" style="--done: 33%" aria-hidden="true"></div>
+     <div class="sumi-pair">…</div>
+     <div class="sumi-deck-moves"><button class="quiet-link">Back</button>
+       <button class="sumi-toggle">Neither</button></div>
+     <ul class="sumi-deck-picks"><li><span class="sumi-deck-kept">Book</span>
+       <span class="sumi-deck-not">Reserve</span> <button class="quiet-link">Change</button></li></ul>
+   </div> */
+.sumi-deck {
+  display: grid;
+  gap: .75rem;
+  margin: 1.5rem 0;
+}
+
+.sumi-deck-count {
+  margin: 0;
+  color: var(--sumi-text-secondary);
+  font-size: .75rem;
+  font-weight: 500;
+}
+
+.sumi-deck-bar {
+  position: relative;
+  height: 1px;
+  background: var(--sumi-line);
+}
+
+.sumi-deck-bar::after {
+  content: '';
+  position: absolute;
+  inset: -1px auto -1px 0;
+  width: clamp(0%, var(--done, 0%), 100%);
+  background: var(--color-sumi-blade);
+}
+
+.sumi-deck .sumi-pair {
+  margin: .5rem 0;
+}
+
+.sumi-deck-moves {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.sumi-deck-picks {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 0;
+  display: grid;
+  border-top: 1px solid var(--sumi-line);
+}
+
+.sumi-deck-picks > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .25rem .6rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--sumi-line);
+  font-size: .8125rem;
+}
+
+.sumi-deck-kept::before {
+  content: '✓ ';
+  content: '✓ ' / '';
+  color: var(--sumi-accent-text);
+}
+
+.sumi-deck-not {
+  color: var(--sumi-text-secondary);
+  text-decoration: line-through;
+}
+
+.sumi-deck-picks .quiet-link {
+  margin-left: auto;
+}
+
+/* A dial: ordered choices as stops on one line between two words. The
+   range input moves with the arrow keys; each stop is also a button, so a
+   tap or a click lands on it directly. The chosen stop is told in words
+   below the line.
+
+   <div class="sumi-dial" style="--stops: 4">
+     <div class="sumi-dial-ends"><span>Small</span><span>Big</span></div>
+     <input type="range" min="0" max="3" step="1" aria-valuetext="…">
+     <div class="sumi-dial-stops"><button class="sumi-dial-stop" aria-pressed>…</button>…</div>
+     <p class="sumi-dial-chosen" aria-live="polite"><strong>…</strong> <span>…</span></p>
+   </div> */
+.sumi-dial {
+  display: grid;
+  gap: .5rem;
+  margin: 1.5rem 0;
+}
+
+.sumi-dial-ends {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--sumi-text-secondary);
+  font-size: .8rem;
+}
+
+.sumi-dial input[type="range"] {
+  width: 100%;
+  min-height: var(--sumi-control-height);
+  margin: 0;
+  accent-color: var(--color-sumi-blade);
+}
+
+.sumi-dial-stops {
+  display: grid;
+  grid-template-columns: repeat(var(--stops, 3), minmax(0, 1fr));
+  gap: .4rem;
+}
+
+.sumi-dial-stop {
+  min-height: var(--sumi-control-height);
+  padding: .45rem .5rem;
+  border: 1px solid var(--sumi-line);
+  border-radius: var(--radius-field);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  font-family: var(--font-body);
+  font-size: .75rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.sumi-dial-stop[aria-pressed="true"] {
+  border-color: var(--sumi-accent-text);
+  box-shadow: inset 0 -3px 0 var(--color-sumi-blade);
+  background: color-mix(in srgb, var(--color-sumi-blade) 8%, var(--color-base-100));
+}
+
+.sumi-dial-stop[aria-pressed="true"]::before {
+  content: '✓ ';
+  content: '✓ ' / '';
+}
+
+.sumi-dial-stop:focus-visible {
+  outline: 2px solid var(--color-sumi-blade);
+  outline-offset: 2px;
+}
+
+.sumi-dial-stop:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.sumi-dial-chosen {
+  min-height: 2.75rem;
+  margin: .25rem 0 0;
+}
+
+.sumi-dial-chosen strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 300;
+}
+
+.sumi-dial-chosen span {
+  color: var(--sumi-text-secondary);
+  font-size: .85rem;
+}
+
+@media (max-width: 420px) {
+  .sumi-dial-stops {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (pointer: coarse) {
+  .sumi-dial-stop {
+    min-height: 2.75rem;
+  }
+}
+
 /* A draft to correct. */
 .sumi-draft {
   border-left: 2px solid var(--sumi-line-strong);
