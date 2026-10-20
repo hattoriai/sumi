@@ -1,0 +1,103 @@
+name: Bug report
+description: Something in Sumi does not look or work as the README says.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. A security problem goes to a private report instead (see SECURITY.md).
+
+  - type: input
+    id: sumi
+    attributes:
+      label: Sumi version
+      description: The tag in your `mix.exs` or `package.json`, or the commit.
+      placeholder: "v0.3.4"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: loading
+    attributes:
+      label: How Sumi is loaded
+      options:
+        - A Mix dependency, imported through Tailwind and esbuild
+        - npm, from the GitHub tag
+        - Storybook only
+        - Another way (say below)
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      description: And touch or mouse, for a size or a target.
+      placeholder: "Safari 26, iOS 26, touch"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      multiple: true
+      options:
+        - Ink (dark)
+        - Paper (light)
+        - Snow
+        - A theme of my own
+    validations:
+      required: true
+
+  - type: input
+    id: stack
+    attributes:
+      label: Tailwind, daisyUI and LiveView versions
+      description: For a problem with the build, a hook or an event.
+      placeholder: "Tailwind 4.3.3, daisyUI 5.7.46, LiveView 1.1.14"
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: The smallest markup that shows it
+      description: The HTML, the Sumi files it imports, and any hook. Or the Storybook story, or a link to a small repository.
+      render: html
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      placeholder: |
+        1. Open the dialog
+        2. Press Escape
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: A screenshot for what you see; the error from the browser console for what it does.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I use a tagged release, not `main`.
+          required: true
+        - label: I searched the open and closed issues.
+          required: true

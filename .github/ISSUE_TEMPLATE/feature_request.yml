@@ -1,0 +1,39 @@
+name: Feature request
+description: An idea, or a change to what Sumi does.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. A new component, a change of behaviour or a change to a canonical choice is agreed here before a pull request (see CONTRIBUTING.md).
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to build, in which app, and what stops you today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: How it would look to an app (a class, a token, a data attribute, a hook) and to the person at the page. Say if it changes what Sumi does today, or one of the README's canonical choices.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What else you considered
+      description: Other designs, and what you do today instead.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched the open and closed issues.
+          required: true
+        - label: I would like to make the pull request myself.

@@ -461,3 +461,9 @@ npm run storybook
 Build the static site with `npm run build-storybook`. See
 [the Storybook guide](docs/storybook.md) for browser checks, adding stories,
 and private deployment to `sumi.hattori.ai` with Cloudflare Pages and Access.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md): when a change needs an issue
+first, and what a pull request needs. Report a security problem
+privately, as [SECURITY.md](SECURITY.md) says.
