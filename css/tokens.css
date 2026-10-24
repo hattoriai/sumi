@@ -62,12 +62,24 @@
   --sumi-wide-width: 80rem;
 }
 
+/* ── Blade's themes ──────────────────────────────────────────
+   Ink and Paper say their accent, so that one drawn inside a page
+   of another theme (a swatch in a picker) is blade, not the page's.
+   ──────────────────────────────────────────────────────────── */
+[data-theme="dark"],
+[data-theme="light"] {
+  --color-sumi-blade: #e84a1c;
+  --color-sumi-ember: #ff6b3d;
+  --color-sumi-ghost: rgba(232, 74, 28, 0.08);
+  --sumi-accent-text: var(--color-sumi-ember);
+}
+
 /* ── Light scheme ───────────────────────────────────────────
    Every light theme needs more ink for AA: higher text opacity and
    darker state text. This list is the one place that names the light
    themes; add a new light theme here as well as in theme.css.
    ──────────────────────────────────────────────────────────── */
-:root:is([data-theme="light"], [data-theme="snow"]) {
+:is([data-theme="light"], [data-theme="snow"], [data-theme="silk"]) {
   --sumi-text-muted: oklch(from var(--color-base-content) l c h / 0.65);
   --sumi-text-secondary: oklch(from var(--color-base-content) l c h / 0.70);
   --sumi-text-tertiary: oklch(from var(--color-base-content) l c h / 0.45);
@@ -76,6 +88,67 @@
   --sumi-success-text: oklch(40% .1 155);
   --sumi-error-text: oklch(44% .16 30);
   --sumi-flip-turn: 0deg;
+}
+
+/* ── Smoke ───────────────────────────────────────────────────
+   A lighter dark: the text tiers and state text need more light for AA
+   on its greys. Its accent is jade, in place of blade.
+   ──────────────────────────────────────────────────────────── */
+[data-theme="smoke"] {
+  --sumi-text-muted: oklch(from var(--color-base-content) l c h / 0.62);
+  --sumi-text-secondary: oklch(from var(--color-base-content) l c h / 0.70);
+  --sumi-text-tertiary: oklch(from var(--color-base-content) l c h / 0.38);
+  --sumi-text-caption: oklch(from var(--color-base-content) l c h / 0.84);
+  --color-sumi-blade: oklch(72% .13 168);
+  --color-sumi-ember: oklch(78% .11 168);
+  --color-sumi-ghost: color-mix(in srgb, oklch(72% .13 168) 8%, transparent);
+  --sumi-accent-text: oklch(80% .11 168);
+  --sumi-success-text: oklch(80% .1 155);
+  --sumi-error-text: oklch(82% .1 30);
+}
+
+/* ── Stone ───────────────────────────────────────────────────
+   Dark granite: gold in place of blade.
+   ──────────────────────────────────────────────────────────── */
+[data-theme="stone"] {
+  --color-sumi-blade: oklch(78% 0.13 82);
+  --color-sumi-ember: oklch(83% 0.11 85);
+  --color-sumi-ghost: color-mix(in srgb, oklch(78% 0.13 82) 8%, transparent);
+  --sumi-text-muted: oklch(from var(--color-base-content) l c h / 0.52);
+  --sumi-text-secondary: oklch(from var(--color-base-content) l c h / 0.62);
+  --sumi-accent-text: oklch(84% 0.11 85);
+}
+
+/* ── Lacquer ─────────────────────────────────────────────────
+   The one theme whose accent is not blade: vermilion takes blade's
+   place, and a lighter vermilion ember's, everywhere they are used.
+   ──────────────────────────────────────────────────────────── */
+[data-theme="lacquer"] {
+  --color-sumi-blade: oklch(63% 0.21 24);
+  --color-sumi-ember: oklch(70% 0.17 28);
+  --color-sumi-ghost: color-mix(in srgb, oklch(63% 0.21 24) 8%, transparent);
+  --sumi-text-muted: oklch(from var(--color-base-content) l c h / 0.53);
+  --sumi-accent-text: oklch(72% 0.16 27);
+}
+
+/* ── Snow ────────────────────────────────────────────────────
+   Indigo, the blue of shadows on snow, in place of blade.
+   ──────────────────────────────────────────────────────────── */
+[data-theme="snow"] {
+  --color-sumi-blade: oklch(50% 0.17 262);
+  --color-sumi-ember: oklch(58% 0.16 262);
+  --color-sumi-ghost: color-mix(in srgb, oklch(50% 0.17 262) 8%, transparent);
+  --sumi-accent-text: oklch(46% 0.16 262);
+}
+
+/* ── Silk ────────────────────────────────────────────────────
+   A pink accent, the lotus, in place of blade.
+   ──────────────────────────────────────────────────────────── */
+[data-theme="silk"] {
+  --color-sumi-blade: oklch(56% 0.21 358);
+  --color-sumi-ember: oklch(64% 0.2 358);
+  --color-sumi-ghost: color-mix(in srgb, oklch(56% 0.21 358) 8%, transparent);
+  --sumi-accent-text: oklch(50% 0.19 355);
 }
 
 /* Shared page gutters keep headers, notices and settings aligned. */

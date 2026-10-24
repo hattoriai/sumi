@@ -35,3 +35,12 @@ export const ThemeFlip = {
   </svg>
 </button>`),
 };
+
+export const ThemePicker = {
+  render: () => {
+    const id = uid('themes');
+    return page('Every theme, one choice', 'The picker lists System and each of the app\'s themes, each with a swatch of itself. The choice is remembered in this browser; an app that saves it per person renders it as data-appearance.',
+      `<div style="min-height:26rem"><div class="sumi-theme-picker" data-sumi-menu style="position:relative;display:inline-block"><button type="button" aria-expanded="false" aria-controls="${id}" aria-label="Theme"><span class="sumi-theme-swatch" data-sumi-theme-current-swatch aria-hidden="true"></span><span data-sumi-theme-current>System</span></button>
+      <div id="${id}" class="sumi-menu-panel" hidden style="left:0;right:auto"><button type="button" class="sumi-menu-item" data-sumi-theme="system">System</button><p class="sumi-menu-group">Dark</p><button type="button" class="sumi-menu-item" data-sumi-theme="dark"><span class="sumi-theme-swatch" data-theme="dark" aria-hidden="true"></span>Ink</button><button type="button" class="sumi-menu-item" data-sumi-theme="smoke"><span class="sumi-theme-swatch" data-theme="smoke" aria-hidden="true"></span>Smoke</button><button type="button" class="sumi-menu-item" data-sumi-theme="stone"><span class="sumi-theme-swatch" data-theme="stone" aria-hidden="true"></span>Stone</button><button type="button" class="sumi-menu-item" data-sumi-theme="lacquer"><span class="sumi-theme-swatch" data-theme="lacquer" aria-hidden="true"></span>Lacquer</button><p class="sumi-menu-group">Light</p><button type="button" class="sumi-menu-item" data-sumi-theme="light"><span class="sumi-theme-swatch" data-theme="light" aria-hidden="true"></span>Paper</button><button type="button" class="sumi-menu-item" data-sumi-theme="snow"><span class="sumi-theme-swatch" data-theme="snow" aria-hidden="true"></span>Snow</button><button type="button" class="sumi-menu-item" data-sumi-theme="silk"><span class="sumi-theme-swatch" data-theme="silk" aria-hidden="true"></span>Silk</button></div></div></div>`);
+  },
+};

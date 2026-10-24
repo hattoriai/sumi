@@ -7,7 +7,7 @@ const open = async (page, id, theme = 'dark') => {
   await expect(page.locator('.sb-page')).toBeVisible();
 };
 
-for (const theme of ['dark', 'light', 'snow']) {
+for (const theme of ['dark', 'smoke', 'stone', 'lacquer', 'light', 'snow', 'silk']) {
   test(`all stories render in ${theme}, including narrow screens`, async ({ page }) => {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
@@ -111,3 +111,28 @@ test('manager loads and toolbar changes the preview theme', async ({ page }) => 
   await expect(preview.locator('html')).toHaveAttribute('data-theme', 'light');
   await page.screenshot({ path: test.info().outputPath('storybook.png'), fullPage: true });
 });
+
+test('the theme picker lists every theme, applies the choice and names it', async ({ page }) => {
+  await open(page, 'controls-navigation--theme-picker');
+  const trigger = page.getByRole('button', { name: 'Theme' });
+  await trigger.click();
+  await page.getByRole('button', { name: 'Lacquer' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'lacquer');
+  await expect(page.locator('[data-sumi-theme-current]')).toHaveText('Lacquer');
+  await expect(page.locator('[data-sumi-theme-current-swatch]')).toHaveAttribute('data-theme', 'lacquer');
+  await trigger.click();
+  await expect(page.getByRole('button', { name: 'Lacquer' })).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+  // Each theme has its own accent: vermilion here, not blade.
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-sumi-blade').trim())).not.toBe('#e84a1c');
+});
+
+test('a swatch is drawn in its own theme, whatever the page is', async ({ page }) => {
+  await open(page, 'foundations-design-language--themes', 'dark');
+  const background = id => page.locator(`.sumi-theme-swatch[data-theme="${id}"]`).evaluate(el => getComputedStyle(el).backgroundColor);
+  expect(await background('silk')).not.toBe(await background('dark'));
+  const mark = id => page.locator(`.sumi-theme-swatch[data-theme="${id}"]`).evaluate(el => getComputedStyle(el, '::after').backgroundColor);
+  expect(new Set(await Promise.all(['dark', 'smoke', 'stone', 'lacquer', 'snow', 'silk'].map(mark))).size).toBe(6);
+});
+
