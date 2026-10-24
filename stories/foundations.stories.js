@@ -3,13 +3,13 @@ import { page, section } from './helpers.js';
 export default { title: 'Foundations/Design language' };
 
 export const Introduction = {
-  render: () => page('墨 Sumi', ['Sumi means ink in Japanese.', 'Shared foundations, components, and patterns for Hattori apps. Built around ink and paper, fine lines, and a single orange accent.'],
+  render: () => page('墨 Sumi', ['Sumi means ink in Japanese.', 'Shared foundations, components, and patterns for Hattori apps. Built around ink and paper, fine lines, and one accent in each theme.'],
     section('Ink, paper, a single mark', `<div class="sb-columns"><div class="sb-stack"><p class="sumi-display" style="font-size:clamp(2rem,4vw,3.5rem)">Give ideas<br>room to take shape.</p><p class="sb-note">Cormorant Garamond gives meaning room. Outfit keeps the interface clear. Blade marks an action or a change of state.</p></div><div class="sb-stack"><p class="sumi-wordmark">SU<span>MI</span></p><p>Hairlines. Quiet surfaces. Deliberate choices.</p><div class="sb-row"><span class="sumi-status settled">Settled</span><span class="sumi-level" data-level="inked"><span class="sumi-level-line" aria-hidden="true"></span><span class="sumi-level-word">Inked</span></span></div></div></div>`) +
     section('Using this library', `<div class="sb-columns"><p class="sb-note">Start with Foundations for tokens and typography. Controls show individual states. Patterns combine components into decisions, reviews and settings.</p><p class="sb-note">Use the theme and viewport tools to check each example. View example markup below each specimen. Interactions use sample data and reset when a story is reloaded.</p></div>`)),
 };
 
 export const Colours = {
-  render: () => page('Colour & surface', 'Semantic tokens follow the selected theme. Blade stays the signature accent.',
+  render: () => page('Colour & surface', 'Semantic tokens follow the selected theme. Blade is the accent of Ink and Paper; Smoke, Stone, Lacquer, Snow and Silk each have their own in its place.',
     section('Surfaces and signals', `<div class="sb-columns">${[
       ['Canvas', '--color-base-100'], ['Raised surface', '--color-base-200'], ['Recessed surface', '--color-base-300'],
       ['Content', '--color-base-content'], ['Blade', '--color-sumi-blade'], ['Ember', '--color-sumi-ember'],
@@ -28,4 +28,14 @@ export const LevelsAndStatus = {
   render: () => page('State has a shape', 'Words and line weight carry meaning alongside colour.',
     section('Level marks', `<div class="sb-row">${['empty', 'sketched', 'drawn', 'inked'].map(level => `<span class="sumi-level" data-level="${level}"><span class="sumi-level-line" aria-hidden="true"></span><span class="sumi-level-word">${level[0].toUpperCase() + level.slice(1)}</span></span>`).join('')}</div>`) +
     section('Review status', `<div class="sb-row">${['draft', 'settled', 'open', 'inherited', 'proposed', 'rejected', 'assumption'].map(status => `<span class="sumi-status ${status}">${status === 'rejected' ? 'Not taken' : status[0].toUpperCase() + status.slice(1)}</span>`).join('')}</div>`)),
+};
+
+export const Themes = {
+  render: () => page('Seven themes', 'Four darks and three lights. Each swatch is drawn in its own theme: its page, its text and its accent.',
+    section('Themes', `<div class="sb-columns">${[
+      ['dark', 'Ink', 'Paper text on ink. Blade.'], ['smoke', 'Smoke', 'A soft dark of smoky greys. Jade.'],
+      ['stone', 'Stone', 'Dark granite. Gold.'], ['lacquer', 'Lacquer', 'Black lacquerware. Vermilion.'],
+      ['light', 'Paper', 'Ink on warm paper. Blade.'], ['snow', 'Snow', 'Ink on near-white. Indigo.'],
+      ['silk', 'Silk', 'Ink on blush silk. Lotus pink.'],
+    ].map(([id, name, look]) => `<div class="sb-token"><span class="sumi-theme-swatch" data-theme="${id}" aria-hidden="true" style="width:4rem;height:2.5rem"></span><p>${name}</p><p class="sumi-meta">${look}</p><code>data-theme="${id}"</code></div>`).join('')}</div>`)),
 };

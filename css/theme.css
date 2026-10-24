@@ -96,7 +96,8 @@
 }
 
 /* SNOW THEME — Ink on near-white, for people who prefer a neutral page to
-   warm paper. Cool greys follow the ink's hue; blade stays the accent.
+   warm paper. Cool greys follow the ink's hue; indigo, the blue of
+   shadows on snow, is its accent (swapped in tokens.css).
    A light theme: it is also in the light-scheme list in tokens.css. */
 @plugin "daisyui/packages/bundle/daisyui-theme" {
   name: "snow";
@@ -109,15 +110,173 @@
   --color-base-300: oklch(92.5% 0.005 270);
   /* ink, slightly softened for long reading on white */
   --color-base-content: oklch(20% 0.006 270);
-  --color-primary: oklch(58% 0.2 32);
-  /* ink on blade: about 5:1, where paper on blade is 3.7:1 */
-  --color-primary-content: oklch(12% 0.003 270);
-  --color-secondary: oklch(66% 0.2 42);
-  --color-secondary-content: oklch(12% 0.003 270);
+  /* indigo: #285cc2; white on it is about 6:1 */
+  --color-primary: oklch(50% 0.17 262);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(58% 0.16 262);
+  --color-secondary-content: oklch(20% 0.006 270);
   --color-accent: oklch(20% 0.006 270);
   --color-accent-content: oklch(99.5% 0.001 270);
   --color-neutral: oklch(50% 0.008 270);
   --color-neutral-content: oklch(98% 0.003 270);
+  --color-info: oklch(55% 0.18 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(55% 0.16 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(68% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(55% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* SMOKE THEME — A soft dark: paper text on lifted, smoky greys, with
+   gentler contrast than ink for long sessions, and jade in place of
+   blade. Ink is made from soot. Its text tiers and accent are in
+   tokens.css. */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "smoke";
+  default: false;
+  prefersdark: false;
+  color-scheme: "dark";
+  --color-base-100: oklch(27% 0.005 270);
+  --color-base-200: oklch(30.5% 0.006 270);
+  --color-base-300: oklch(34% 0.007 270);
+  /* paper, a little softer on grey */
+  --color-base-content: oklch(92% 0.01 85);
+  --color-accent: oklch(92% 0.01 85);
+  --color-accent-content: oklch(27% 0.005 270);
+  /* jade: #37be95; smoke's grey on it is about 6:1 */
+  --color-primary: oklch(72% .13 168);
+  --color-primary-content: oklch(27% 0.005 270);
+  --color-secondary: oklch(78% .11 168);
+  --color-secondary-content: oklch(27% 0.005 270);
+  --color-neutral: oklch(42% 0.008 270);
+  --color-neutral-content: oklch(90% 0.008 270);
+  --color-info: oklch(62% 0.15 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(62% 0.14 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(72% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(58% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* STONE THEME — Paper text on dark granite, with gold in place of
+   blade. Its text tiers and accent are in tokens.css. */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "stone";
+  default: false;
+  prefersdark: false;
+  color-scheme: "dark";
+  --color-base-100: oklch(20% 0.006 70);
+  --color-base-200: oklch(23.5% 0.007 70);
+  --color-base-300: oklch(27% 0.008 70);
+  --color-base-content: oklch(95% 0.01 85);
+  /* gold: #e1af4a; stone on it is about 9:1 */
+  --color-primary: oklch(78% 0.13 82);
+  --color-primary-content: oklch(20% 0.006 70);
+  --color-secondary: oklch(83% 0.11 85);
+  --color-secondary-content: oklch(20% 0.006 70);
+  --color-accent: oklch(95% 0.01 85);
+  --color-accent-content: oklch(20% 0.006 70);
+  --color-neutral: oklch(38% 0.008 70);
+  --color-neutral-content: oklch(92% 0.01 85);
+  --color-info: oklch(62% 0.15 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(62% 0.14 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(72% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(58% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* LACQUER THEME — Black lacquerware with vermilion: paper text on a
+   deep red-brown black, and vermilion (shu) in place of blade. The one
+   theme with its own accent; tokens.css swaps blade and ember for it. */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "lacquer";
+  default: false;
+  prefersdark: false;
+  color-scheme: "dark";
+  /* urushi black: warm, with a red-brown undertone ink does not have */
+  --color-base-100: oklch(14% 0.022 25);
+  --color-base-200: oklch(18% 0.026 25);
+  --color-base-300: oklch(22% 0.03 25);
+  --color-base-content: oklch(93% 0.016 75);
+  /* vermilion: #ed3f45; lacquer black on it is about 5:1 */
+  --color-primary: oklch(63% 0.21 24);
+  --color-primary-content: oklch(14% 0.022 25);
+  --color-secondary: oklch(70% 0.17 28);
+  --color-secondary-content: oklch(14% 0.022 25);
+  --color-accent: oklch(93% 0.016 75);
+  --color-accent-content: oklch(14% 0.022 25);
+  --color-neutral: oklch(35% 0.02 25);
+  --color-neutral-content: oklch(88% 0.012 75);
+  --color-info: oklch(62% 0.15 245);
+  --color-info-content: oklch(97% 0.01 245);
+  --color-success: oklch(62% 0.14 155);
+  --color-success-content: oklch(97% 0.01 155);
+  --color-warning: oklch(72% 0.16 70);
+  --color-warning-content: oklch(20% 0.02 70);
+  --color-error: oklch(58% 0.22 25);
+  --color-error-content: oklch(97% 0.01 25);
+  --radius-selector: 0.125rem;
+  --radius-field: 0.125rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* SILK THEME — Ink on blush silk, with a pink accent in place of blade
+   (the lotus). Its own accent is swapped in tokens.css.
+   A light theme: it is also in the light-scheme list in tokens.css. */
+@plugin "daisyui/packages/bundle/daisyui-theme" {
+  name: "silk";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(97.5% 0.012 350);
+  --color-base-200: oklch(95% 0.016 350);
+  --color-base-300: oklch(91.5% 0.02 350);
+  --color-base-content: oklch(22% 0.012 350);
+  /* lotus pink: #cb2174; white on it is about 5:1 */
+  --color-primary: oklch(56% 0.21 358);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(64% 0.2 358);
+  --color-secondary-content: oklch(22% 0.012 350);
+  --color-accent: oklch(22% 0.012 350);
+  --color-accent-content: oklch(97.5% 0.012 350);
+  --color-neutral: oklch(50% 0.008 270);
+  --color-neutral-content: oklch(98% 0.008 350);
   --color-info: oklch(55% 0.18 245);
   --color-info-content: oklch(97% 0.01 245);
   --color-success: oklch(55% 0.16 155);
@@ -142,7 +301,8 @@
 @custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
 
 /* Use the data attribute for dark mode  */
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+/* Tailwind's dark: variant, for the dark themes */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, [data-theme=smoke], [data-theme=smoke] *, [data-theme=lacquer], [data-theme=lacquer] *, [data-theme=stone], [data-theme=stone] *));
 
 /* Make LiveView wrapper divs transparent for layout */
 [data-phx-session], [data-phx-teleported-src] { display: contents }

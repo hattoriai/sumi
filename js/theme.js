@@ -1,4 +1,5 @@
-// Appearance: "system" or one of the app's themes. The page lists its
+// Appearance: "system" or one of the app's themes (a toggle, a picker or
+// choice cards: any [data-sumi-theme] button). The page lists its
 // themes in data-sumi-themes on <html> and sets data-theme and
 // data-theme-source before first paint with the boot snippet in the README;
 // this module keeps them current. "system" follows the device: dark, or
@@ -21,7 +22,23 @@ function syncButtons(choice = current()) {
   document.querySelectorAll('[data-sumi-theme]').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.sumiTheme === choice));
   });
+  syncCurrent(choice);
   syncFlips();
+}
+
+// A picker's trigger names the choice: [data-sumi-theme-current] gets the
+// pressed option's name (its data-sumi-theme-name, else its text), and a
+// [data-sumi-theme-current-swatch] shows the theme on the page.
+function syncCurrent(choice) {
+  const name = [...document.querySelectorAll(`[data-sumi-theme="${choice}"]`)]
+    .map(option => option.dataset.sumiThemeName || option.textContent.trim())
+    .find(Boolean);
+  document.querySelectorAll('[data-sumi-theme-current]').forEach(label => {
+    if (name) label.textContent = name;
+  });
+  document.querySelectorAll('[data-sumi-theme-current-swatch]').forEach(swatch => {
+    swatch.dataset.theme = root.dataset.theme;
+  });
 }
 
 // A flip names what it does next, so it needs no pressed state.
@@ -49,6 +66,8 @@ function choose(choice) {
 }
 
 document.addEventListener('click', event => {
+  // A picker opened on a page rendered after this module shows its choice.
+  if (event.target.closest('[data-sumi-menu]')) syncButtons();
   const button = event.target.closest('[data-sumi-theme]');
   if (button) choose(button.dataset.sumiTheme);
   if (event.target.closest('[data-sumi-theme-flip]')) choose(root.dataset.theme === 'dark' ? 'light' : 'dark');

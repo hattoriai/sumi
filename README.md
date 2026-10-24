@@ -10,7 +10,7 @@ The files use Tailwind v4 and the daisyUI theme plugin.
 In a Phoenix app, add Sumi as a Mix dependency that is not compiled:
 
 ```elixir
-{:sumi, github: "hattoriai/sumi", tag: "v0.3.4", app: false, compile: false, depth: 1}
+{:sumi, github: "hattoriai/sumi", tag: "v0.4.0", app: false, compile: false, depth: 1}
 ```
 
 Phoenix's Tailwind and esbuild profiles put `deps/` on `NODE_PATH`, so
@@ -29,7 +29,7 @@ import "sumi/js/theme";
 In an app that uses npm, install the same tag:
 
 ```sh
-npm install github:hattoriai/sumi#v0.3.4
+npm install github:hattoriai/sumi#v0.4.0
 ```
 
 ## Canonical choices
@@ -40,10 +40,13 @@ These are settled. Apps follow them; they do not redefine them.
   same system inverted: ink text on paper. An app follows the person's
   saved choice, then their system preference. With neither, it is dark.
   "System" always means ink or paper; other themes are explicit choices.
-- **One accent: blade `#e84a1c`** (`oklch(58% .2 32)`, daisyUI `primary`).
-  Ember `#ff6b3d` (`secondary`) is its hover and its small-text variant on
-  ink. Do not introduce other oranges.
-- **Blade is a line or a mark, not a fill for text.** Use it for the eyebrow
+- **One accent in each theme.** Blade `#e84a1c` (`oklch(58% .2 32)`,
+  daisyUI `primary`) is the accent of Ink and Paper; Ember `#ff6b3d`
+  (`secondary`) is its hover and its small-text variant on ink. Smoke,
+  Stone, Lacquer, Snow and Silk each have one accent of their own in
+  blade's place (see Themes). Do not introduce other oranges, or a second accent
+  within a theme.
+- **Blade (the theme's accent) is a line or a mark, not a fill for text.** Use it for the eyebrow
   rule, the wordmark accent, focus, the current navigation item, a row or
   card edge and the primary button. Body text keeps its colour on hover.
   Small accent text, such as the eyebrow label, uses `--sumi-accent-text`,
@@ -81,22 +84,40 @@ Import `theme.css` and `tokens.css` first; every other file uses their tokens.
 
 ### Themes
 
-| `data-theme` | Name | Scheme | Page |
-| --- | --- | --- | --- |
-| `dark` | Ink | dark | Paper text on ink. The default. |
-| `light` | Paper | light | Ink on warm paper. |
-| `snow` | Snow | light | Ink on near-white, with cool greys, for people who prefer a neutral page. |
+| `data-theme` | Name | Scheme | Page | Accent |
+| --- | --- | --- | --- | --- |
+| `dark` | Ink | dark | Paper text on ink. The default. | Blade |
+| `smoke` | Smoke | dark | Paper text on smoky greys: a soft dark, gentler than ink for long sessions. | Jade `#37be95` |
+| `stone` | Stone | dark | Paper text on dark granite. | Gold `#e1af4a` |
+| `lacquer` | Lacquer | dark | Paper text on a red-brown black, like lacquerware. | Vermilion `#ed3f45` |
+| `light` | Paper | light | Ink on warm paper. | Blade |
+| `snow` | Snow | light | Ink on near-white, with cool greys, for people who prefer a neutral page. | Indigo `#285cc2` |
+| `silk` | Silk | light | Ink on blush silk. | Lotus pink `#cb2174` |
 
-Every theme keeps the blade accent, the radii and `--depth: 0`. Only the
-surfaces, the text colour and the status colours change.
+Every theme keeps the radii and `--depth: 0`. The surfaces, the text
+colour, the status colours and the accent change. A theme with its own
+accent sets blade, ember and the ghost (`--color-sumi-blade`,
+`--color-sumi-ember`, `--color-sumi-ghost`) and `--sumi-accent-text` in
+its block in `css/tokens.css`, so every component that uses blade uses
+its accent. Its `primary-content` (the text on a primary button) is
+whichever passes AA on the accent: dark on jade, gold and vermilion,
+white on indigo and pink. Each theme's text and accent pass AA on its three
+surfaces.
 
 To add a theme:
 
 1. Add a daisyUI theme block to `css/theme.css`.
 2. If it is light, add it to the light-scheme list in `css/tokens.css`
-   (`:root:is([data-theme="light"], …)`). That list is the only place in
-   Sumi that names light themes; components never test theme names.
-3. Add it to the app's list of themes. The app renders the ids in
+   (`:is([data-theme="light"], …)`). If it is dark, add it to the `dark`
+   variant at the end of `css/theme.css`. Those two lists are the only
+   places in Sumi that name themes; components never test theme names.
+3. If its accent is not blade, or its surfaces need other text tiers, add
+   a `[data-theme="…"]` block for it in `css/tokens.css` (see Smoke).
+   Check every text tier, the accent and the text on the accent for AA
+   on its three surfaces.
+4. Add it to the Storybook toolbar (`.storybook/preview.js`), the test's
+   list of themes and the Themes story.
+5. Add it to the app's list of themes. The app renders the ids in
    `data-sumi-themes` on `<html>`; `js/theme.js` and the boot snippet
    accept only those ids.
 
@@ -130,7 +151,7 @@ Use these tokens when adding components. Avoid app names in shared tokens.
 
 ## Appearance
 
-`css/theme-toggle.css` and `js/theme.js` provide the appearance control:
+`css/theme-toggle.css` and `js/theme.js` provide the appearance controls:
 "system", then each of the app's themes. Mark up native buttons inside
 `.sumi-theme-toggle`, each with `data-sumi-theme="system"` or a theme id
 and an accessible name. The module sets `aria-pressed`, stores the choice
@@ -138,6 +159,35 @@ under `sumi:theme`, follows system changes and syncs other tabs. In
 LiveView, give the group an `id` and `phx-update="ignore"`. The same
 `data-sumi-theme` buttons work anywhere, for example as larger
 `.sumi-choice` cards on a settings page.
+
+With more than three themes, use the theme picker: a menu
+(`[data-sumi-menu]`, see Navigation) of `.sumi-menu-item` buttons with
+`data-sumi-theme`, each with a swatch of itself. A `.sumi-theme-swatch`
+with `data-theme` is drawn in that theme (its page, a line of its text and
+its accent), whatever the page's theme is. In the trigger,
+`data-sumi-theme-current` gets the choice's name (the option's
+`data-sumi-theme-name`, else its text) and `data-sumi-theme-current-swatch`
+the theme on the page. `.sumi-menu-group` labels the darks and the lights.
+
+```html
+<div class="sumi-theme-picker" data-sumi-menu>
+  <button type="button" aria-expanded="false" aria-controls="themes" aria-label="Theme">
+    <span class="sumi-theme-swatch" data-sumi-theme-current-swatch aria-hidden="true"></span>
+    <span data-sumi-theme-current>System</span>
+  </button>
+  <div id="themes" class="sumi-menu-panel" hidden>
+    <button type="button" class="sumi-menu-item" data-sumi-theme="system">System</button>
+    <p class="sumi-menu-group">Dark</p>
+    <button type="button" class="sumi-menu-item" data-sumi-theme="dark">
+      <span class="sumi-theme-swatch" data-theme="dark" aria-hidden="true"></span>Ink
+    </button>
+    <!-- smoke, stone, lacquer; then "Light": light, snow, silk -->
+  </div>
+</div>
+```
+
+In LiveView, give the picker an `id` and `phx-update="ignore"`. The same
+buttons with swatches work as `.sumi-choice` cards on a settings page.
 
 For a marketing page or a signed-out header, `.sumi-theme-flip` is one
 yin-yang button that flips between ink and paper. Any light theme, snow
@@ -157,8 +207,9 @@ paper" or "Switch to ink") current. The rotation comes from
 </button>
 ```
 
-Render `data-theme="dark"` and `data-sumi-themes="dark light snow"` (the
-app's theme ids) on `<html>`. To prevent a flash of the wrong theme, set
+Render `data-theme="dark"` and
+`data-sumi-themes="dark smoke stone lacquer light snow silk"` (the app's
+theme ids) on `<html>`. To prevent a flash of the wrong theme, set
 the theme in `<head>` before first paint:
 
 ```html
@@ -230,8 +281,7 @@ with ink passes through blue.
 | `.sumi-specimen` | A native choice button showing real product content; `--sample-*` variables belong to the preview, independently of the app theme. |
 | `.sumi-interview-skeleton`, `.sumi-skeleton` | A reserved layout while content loads. |
 
-Light mode remains paper; dark mode remains ink. Components must support
-both, keyboard interaction, narrow screens and reduced motion. Prototype
+Components must support every theme (use the tokens, never theme names), keyboard interaction, narrow screens and reduced motion. Prototype
 new patterns in the app, then place their reusable behavior and appearance
 here. Ronin remains on hold; its legacy styles have not been migrated.
 

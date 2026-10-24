@@ -11,8 +11,12 @@ export default {
         title: 'Theme', icon: 'circlehollow', dynamicTitle: true,
         items: [
           { value: 'dark', title: 'Ink' },
+          { value: 'smoke', title: 'Smoke' },
+          { value: 'stone', title: 'Stone' },
+          { value: 'lacquer', title: 'Lacquer' },
           { value: 'light', title: 'Paper' },
           { value: 'snow', title: 'Snow' },
+          { value: 'silk', title: 'Silk' },
         ],
       },
     },
@@ -26,6 +30,7 @@ export default {
   },
   decorators: [(story, context) => {
     document.documentElement.dataset.theme = context.globals.theme;
+    document.documentElement.dataset.sumiThemes = 'dark smoke stone lacquer light snow silk';
     return story();
   }],
 };
